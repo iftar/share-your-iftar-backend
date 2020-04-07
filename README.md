@@ -28,9 +28,17 @@ This project was written using Laravel (https://laravel.com/). Laravel is a web 
 ### Getting started
 
 ```
+cp .env.example .env
 composer install;
+php artisan key:generate;
 npm install;
 npm run dev;
+```
+
+### Running migrations
+
+```
+php artisan migrate
 ```
 
 ### Running the app locally
