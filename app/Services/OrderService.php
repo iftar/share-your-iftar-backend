@@ -6,8 +6,8 @@ use App\Models\Order;
 
 class OrderService
 {
-  public function list()
-  {
-    return Order::paginate(15);
-  }
+    public function list()
+    {
+        return Order::paginate(15);
+    }
 }
