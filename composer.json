@@ -1,10 +1,11 @@
 {
-    "name": "laravel/laravel",
+    "name": "iftar/share-your-iftar-backend",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "The Share your Iftar Project",
     "keywords": [
-        "framework",
-        "laravel"
+        "iftar",
+        "muslim",
+        "food"
     ],
     "license": "MIT",
     "require": {
