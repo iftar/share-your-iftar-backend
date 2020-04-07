@@ -1,14 +1,12 @@
 {
   "addons": ["heroku-postgresql:hobby-dev"],
+  "scripts": {
+    "postdeploy": "php artisan migrate --force"
+  },
   "environments": {
     "review": {
       "scripts": {
         "postdeploy": "php artisan migrate:fresh --seed --force"
-      }
-    },
-    "staging": {
-      "scripts": {
-        "postdeploy": "php artisan migrate --force"
       }
     }
   }
