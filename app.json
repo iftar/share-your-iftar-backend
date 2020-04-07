@@ -1,8 +1,5 @@
 {
   "addons": ["heroku-postgresql:hobby-dev"],
-  "scripts": {
-    "postdeploy": "php artisan migrate --force"
-  },
   "environments": {
     "review": {
       "scripts": {
