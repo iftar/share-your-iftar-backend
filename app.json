@@ -5,6 +5,11 @@
       "scripts": {
         "postdeploy": "php artisan migrate:fresh --seed --force"
       }
+    },
+    "staging": {
+      "scripts": {
+        "postdeploy": "php artisan migrate --force"
+      }
     }
   }
 }
