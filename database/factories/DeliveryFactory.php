@@ -11,7 +11,7 @@ $factory->define(Delivery::class, function (Faker $faker) {
     return [
         //
         'user_id' => function () {
-            return factory(User::class)->create()->id;
+            return factory(User::class)->states('charity')->create()->id;
         },
         'pickup_id' => function () {
             return factory(Pickup::class)->create()->id;
