@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddOrdersTable extends Migration
+class CreatePickupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('pickups', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('order_id');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
@@ -25,10 +26,8 @@ class AddOrdersTable extends Migration
             $table->string('town')->nullable();
             $table->string('county')->nullable();
             $table->string('post_code');
-            $table->unsignedInteger('quantity_child');
-            $table->unsignedInteger('quantity_adult');
             $table->text('notes')->nullable();
-            $table->timestamp('required_at');
+            $table->timestamp('pickup_at');
             $table->timestamps();
         });
     }
@@ -40,6 +39,6 @@ class AddOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('pickups');
     }
 }

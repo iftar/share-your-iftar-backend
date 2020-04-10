@@ -3,16 +3,20 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Order;
+use App\Models\Pickup;
 use App\Models\User;
 use Faker\Generator as Faker;
 use Faker\Factory;
 
-$factory->define(Order::class, function (Faker $faker) {
+$factory->define(Pickup::class, function (Faker $faker) {
     $faker = Factory::create('en_GB');
-
+    $order = factory(Order::class)->create();
     return [
         'user_id' => function () {
             return factory(User::class)->create()->id;
+        },
+        'order_id' => function () use($order) {
+            return $order->id;
         },
         'first_name' => $faker->firstName(),
         'last_name' => $faker->lastName(),
@@ -23,9 +27,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'town' => $faker->city,
         'county' => $faker->county,
         'post_code' => $faker->postcode,
-        'quantity_child' => now(),
-        'quantity_adult' => now(),
         'notes' => $faker->paragraph(),
-        'required_at' => now()->addDays(rand(1,7)),
+        'pickup_at' => $order->required_at->setTime(rand(16,18), rand(0, 59)),
     ];
 });
