@@ -8,4 +8,5 @@ class Order extends Model
 {
     //
     protected $table = 'orders';
+    protected $dates = ["required_at"];
 }
