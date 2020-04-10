@@ -23,8 +23,8 @@ $factory->define(Order::class, function (Faker $faker) {
         'town' => $faker->city,
         'county' => $faker->county,
         'post_code' => $faker->postcode,
-        'quantity_child' => now(),
-        'quantity_adult' => now(),
+        'quantity_child' => rand(0,5),
+        'quantity_adult' => rand(0,5),
         'notes' => $faker->paragraph(),
         'required_at' => now()->addDays(rand(1,7)),
     ];
