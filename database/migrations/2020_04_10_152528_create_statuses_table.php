@@ -16,8 +16,8 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('order_id');
-            $table->unsignedInteger('pickup_id');
-            $table->unsignedInteger('delivery_id');
+            $table->unsignedInteger('pickup_id')->nullable();
+            $table->unsignedInteger('delivery_id')->nullable();
             $table->string('status')->default('awaiting_acceptance');
             $table->timestamps();
         });

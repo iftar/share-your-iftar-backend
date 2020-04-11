@@ -2,20 +2,26 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Delivery;
+use Faker\Factory;
 use App\Models\User;
 use App\Models\Pickup;
+use App\Models\Delivery;
 use Faker\Generator as Faker;
 
-$factory->define(Delivery::class, function (Faker $faker) {
+$factory->define(Delivery::class, function (Faker $faker, $options) {
+    $faker = Factory::create('en_GB');
+
+    $user = array_key_exists('user_id', $options)
+        ? User::find($options['user_id'])
+        : factory(User::class)->create();
+
+    $pickup = array_key_exists('pickup_id', $options)
+        ? Pickup::find($options['pickup_id'])
+        : factory(Pickup::class)->create();
+
     return [
-        //
-        'user_id' => function () {
-            return factory(User::class)->states('charity')->create()->id;
-        },
-        'pickup_id' => function () {
-            return factory(Pickup::class)->create()->id;
-        },
-        'notes' => $faker->paragraph(),
+        'user_id'   => $user->id,
+        'pickup_id' => $pickup->id,
+        'notes'     => $faker->paragraph,
     ];
 });
