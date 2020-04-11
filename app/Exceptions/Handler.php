@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -29,7 +33,8 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Throwable  $exception
+     * @param \Throwable $exception
+     *
      * @return void
      *
      * @throws \Exception
@@ -42,14 +47,59 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable               $exception
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        $exception = $this->prepareException($exception);
+
+        if ($exception instanceof HttpResponseException) {
+            return $exception->getResponse();
+        } elseif ($exception instanceof AuthenticationException) {
+            return $this->unauthenticated($request, $exception);
+        } elseif ($exception instanceof ValidationException) {
+            return $this->convertValidationExceptionToResponse($exception, $request);
+        }
+
+        if ($request->wantsJson()) {
+            return $this->jsonRender($request, $exception);
+        }
+
+        return $this->prepareResponse($request, $exception);
+    }
+
+    protected function jsonRender($request, Throwable $exception)
+    {
+        $response = [
+            'status'  => 'error',
+            'message' => 'Sorry, something went wrong'
+        ];
+
+        if (config('app.debug')) {
+            $response['exception']   = get_class($exception);
+            $response['message']     = $exception->getMessage();
+            $response['stack_trace'] = $exception->getTrace();
+        }
+
+        $status = $this->isHttpException($exception) ? $exception->getStatusCode() : Response::HTTP_BAD_REQUEST;
+
+        return response()->json($response, $status);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Unauthenticated'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return redirect()->guest('/');
     }
 }
