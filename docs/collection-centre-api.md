@@ -2,6 +2,11 @@
 
 The Collection centre API documentation allows you to manage a collection centre's dashboard.
 
+## Wireframe
+
+<img src="./assets/share_your_iftar_-_collection_dashboard_.png" />
+
+
 ## GET Collection centre profile
 
 TBC
