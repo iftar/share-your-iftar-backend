@@ -18,21 +18,21 @@ This API gets the available collection points for the user based on their Post c
 | Response type   | JSON |
 | Path            | `/api/orders/get-available-collection-points` |
 | Authentication  | required |
-| User type       | any      |
+| User type       | normal    |
 | Query string    | `postcode={postcode}` |
 
 **JavaScript (jQuery)**
 
 ```javascript
 $.ajax({
-  url: '/api/orders/get-available-locations',
+  url: '/api/orders/get-available-collection-points',
   type: 'GET',
   contentType: 'application/json'
   headers: {
   'Authorization': 'Bearer <token>'
   },
   success: function (result) {
-  // CallBack(result);
+    // CallBack(result);
   },
   error: function (error) {
     // handle error
@@ -77,11 +77,115 @@ $.ajax({
 ]
 ```
 
-
 ## CREATE Order
 
 TBC
 
-## GET Order
+## GET List Order (NOT MVP)
 
-TBC
+This API gets the orders placed by user.
+
+| Key     | Value    |
+| -------------   |-------------|
+| Method          | GET |
+| Response type   | JSON / paginated |
+| Path            | `/api/orders` |
+| Authentication  | required |
+| User type       | any      |
+
+**JavaScript (jQuery)**
+
+```javascript
+$.ajax({
+  url: '/api/orders',
+  type: 'GET',
+  contentType: 'application/json'
+  headers: {
+  'Authorization': 'Bearer <token>'
+  },
+  success: function (result) {
+    // CallBack(result);
+  },
+  error: function (error) {
+    // handle error
+  }
+});
+```
+
+**Example response**
+
+```json
+[
+  {
+    "id": 3121,
+    "name": "John smith",
+    "type": "collection",
+    "collection_point_id": 31,
+    "collection_point_timeslot_id": 28,
+    "meals_adults": 2,
+    "meals_children": 3,
+    "notes": "Some important information about the order"
+  },
+  {
+    "id": 31223,
+    "name": "John smith",
+    "address_line_1": "123 Fake street",
+    "address_line_2": "",
+    "address_city": "London",
+    "address_post_code": "E1 1AA",
+    "type": "delivery",
+    "collection_point_id": 31,
+    "collection_point_timeslot_id": 28,
+    "meals_adults": 2,
+    "meals_children": 3,
+    "notes": "Some important information about the order"
+  },
+  {...}
+]
+```
+
+## GET Order (NOT MVP)
+
+This API gets the order information.
+
+| Key     | Value    |
+| -------------   |-------------|
+| Method          | GET |
+| Response type   | JSON |
+| Path            | `/api/orders/{id}` |
+| Authentication  | required |
+| User type       | normal   |
+
+**JavaScript (jQuery)**
+
+```javascript
+$.ajax({
+  url: '/api/orders/3121',
+  type: 'GET',
+  contentType: 'application/json'
+  headers: {
+  'Authorization': 'Bearer <token>'
+  },
+  success: function (result) {
+    // CallBack(result);
+  },
+  error: function (error) {
+    // handle error
+  }
+});
+```
+
+**Example response**
+
+```json
+{
+  "id": 3121,
+  "name": "John smith",
+  "type": "collection",
+  "collection_point_id": 31,
+  "collection_point_timeslot_id": 28,
+  "meals_adults": 2,
+  "meals_children": 3,
+  "notes": "Some important information about the order"
+}
+```
