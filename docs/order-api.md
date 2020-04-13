@@ -79,7 +79,111 @@ $.ajax({
 
 ## CREATE Order
 
-TBC
+This API creates a orders.
+
+| Key     | Value    |
+| -------------   |-------------|
+| Method          | POST |
+| Response type   | JSON |
+| Path            | `/api/orders` |
+| Authentication  | required |
+| User type       | normal    |
+
+**Post Data**
+
+| Key     | Required/Optional    | Value |
+| -------------   |-------------|-------------|
+| location_id     | required | `{id}` |
+| location_time_slot_id   | required | `{id}` |
+| order_type     | required | `collection|delivery` |
+| meals_adults  | optional \| one required | `0-10` |
+| meals_children | optional \| one required   | `0-10` |
+| name | required | `{name}` |
+| address_line_1 | optional \| only required if type `delivery`| `{address_line_1}` |
+| address_line_2 | optional | `{address_line_2}` |
+| address_city | optional \| only required if type `delivery`| `{address_city}` |
+| address_post_code | optional \| only required if type `delivery`| `{address_post_code}` |
+
+**JavaScript (jQuery)**
+
+```javascript
+// Collection
+
+var orderDetails = {
+  location_id: 31,
+  location_time_slot_id: 28,
+  meals_adults: 3,
+  meals_children: 2,
+  order_type: "collection",
+  name: "John Smith"
+};
+
+$.ajax({
+  url: '/api/orders',
+  type: 'POST',
+  contentType: 'application/json'
+  headers: {
+  'Authorization': 'Bearer <token>'
+  },
+  data: orderDetails,
+  success: function (result) {
+    // CallBack(result);
+  },
+  error: function (error) {
+    // handle error
+  }
+});
+
+// Delivery
+var orderDetails = {
+  location_id: 31,
+  location_time_slot_id: 28,
+  meals_adults: 3,
+  meals_children: 2,
+  order_type: "delivery",
+  name: "John Smith",
+  address_line_1: "123 fake street",
+  address_city: "London",
+  address_postcode: "E1 1AA"
+};
+
+$.ajax({
+  url: '/api/orders',
+  type: 'POST',
+  contentType: 'application/json'
+  headers: {
+  'Authorization': 'Bearer <token>'
+  },
+  data: orderDetails,
+  success: function (result) {
+    // CallBack(result);
+  },
+  error: function (error) {
+    // handle error
+  }
+});
+```
+
+**Example response**
+```json
+{
+  "status": "success",
+  "order_details": {
+    "id": 3121,
+    "name": "John smith",
+    "type": "collection",
+    "collection_point_id": 31,
+    "collection_point_timeslot_id": 28,
+    "meals_adults": 2,
+    "meals_children": 3,
+    "notes": "Some important information about the order"
+  }
+}
+```
+
+**APIs below are not required for MVP**
+---
+
 
 ## GET List Order (NOT MVP)
 
