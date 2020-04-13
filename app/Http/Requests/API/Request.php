@@ -21,7 +21,9 @@ abstract class Request extends FormRequest
         $errors = $validator->errors();
 
         throw new HttpResponseException(response()->json([
-            'errors' => $errors
+            'status'  => 'error',
+            'message' => 'Validation error',
+            'errors'  => $errors
         ], Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }

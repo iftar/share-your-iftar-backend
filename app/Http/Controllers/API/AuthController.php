@@ -60,4 +60,16 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+    public function logout(AuthService $authService)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $authService->revokeAllTokens($user);
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
 }
