@@ -24,20 +24,20 @@ This API gets the available collection points for the user based on their Post c
 **JavaScript (jQuery)**
 
 ```javascript
-  $.ajax({
-   url: '/api/orders/get-available-locations',
-   type: 'GET',
-   contentType: 'application/json'
-   headers: {
-    'Authorization': 'Bearer <token>'
-   },
-   success: function (result) {
-    // CallBack(result);
-   },
-   error: function (error) {
-     // handle error
-   }
-  });
+$.ajax({
+  url: '/api/orders/get-available-locations',
+  type: 'GET',
+  contentType: 'application/json'
+  headers: {
+  'Authorization': 'Bearer <token>'
+  },
+  success: function (result) {
+  // CallBack(result);
+  },
+  error: function (error) {
+    // handle error
+  }
+});
 ```
 
 **Example response**
@@ -72,7 +72,8 @@ This API gets the available collection points for the user based on their Post c
       }
     ]
   },
-  ...
+  {...},
+  {...}
 ]
 ```
 
