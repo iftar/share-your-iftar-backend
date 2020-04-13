@@ -135,6 +135,7 @@ $.ajax({
 });
 
 // Delivery
+
 var orderDetails = {
   location_id: 31,
   location_time_slot_id: 28,
