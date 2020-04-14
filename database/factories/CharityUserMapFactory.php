@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\CharityUserMap;
+use App\Models\CharityUser;
 use Faker\Generator as Faker;
 
-$factory->define(CharityUserMap::class, function (Faker $faker) {
+$factory->define(CharityUser::class, function (Faker $faker) {
     return [
         //
     ];

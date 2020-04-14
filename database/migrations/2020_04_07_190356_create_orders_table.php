@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddOrdersTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -23,7 +23,7 @@ class AddOrdersTable extends Migration
             $table->date('required_date');
             $table->string('collection_point_id');
             $table->string('collection_timeslot_id')->nullable(); // only needed for collection
-            
+
             // user details
             $table->string('first_name');
             $table->string('last_name');

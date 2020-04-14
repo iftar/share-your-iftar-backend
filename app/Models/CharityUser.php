@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CharityUserMap extends Model
+class CharityUser extends Model
 {
     //
-    protected $table = 'charity_user_maps';
+    protected $table = 'charity_users';
 
     protected $fillable = [
         'charity_id',
