@@ -15,12 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(OrderSeeder::class);
         $this->call(PickupSeeder::class);
         $this->call(DeliverySeeder::class);
-
-        // 40 users
-        /*
-         * 5 Order_delivery_accepted
-         * 5 Order_delivery_in_progress
-         * 5 Order_delivery_picked_up
-         */
+        $this->call(OauthClientSeeder::class);
     }
 }
