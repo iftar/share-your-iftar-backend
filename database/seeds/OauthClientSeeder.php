@@ -15,6 +15,8 @@ class OauthClientSeeder extends Seeder
         $name     = config('app.name');
         $redirect = config('app.url');
 
+        Artisan::call('passport:keys --force');
+
         Artisan::call('passport:client --personal --name="' . $name . ' Personal Access Client" --redirect_uri="' . $redirect . '"');
 
         Artisan::call('passport:client --password --name="' . $name . ' Password Access Client" --redirect_uri="' . $redirect . '"');
