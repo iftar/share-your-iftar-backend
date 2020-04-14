@@ -14,12 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('/orders', 'OrderController');
-
+// Auth
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 
 Route::group(['middleware' => ['auth:api']], function () {
+
+    // Users API
+    Route::group(['prefix' => 'user', 'name' => 'user.', 'namespace' => 'User'], function () {
+        Route::get('/orders', 'OrderController');
+    });
+
+    // Charity Users API
+    Route::group(['prefix' => 'charity', 'name' => 'charity.', 'namespace' => 'Charity'], function () {
+        Route::get('/orders', 'OrderController');
+    });
+
+    // Collection Point Users API
+    Route::group(['prefix' => 'collection-point', 'name' => 'collection-point.', 'namespace' => 'CollectionPoint'], function () {
+        Route::get('/orders', 'OrderController');
+    });
+
     Route::get('user', 'UserController@index');
     Route::get('logout', 'AuthController@logout');
 });
