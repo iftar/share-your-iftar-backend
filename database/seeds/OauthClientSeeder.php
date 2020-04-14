@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
-use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Artisan;
 
 class OauthClientSeeder extends Seeder
 {
@@ -13,24 +12,11 @@ class OauthClientSeeder extends Seeder
      */
     public function run()
     {
-        Passport::client()->forceFill([
-            'user_id'                => null,
-            'name'                   => config('app.name') . ' Personal Access Client',
-            'secret'                 => Str::random(40),
-            'redirect'               => config('app.url'),
-            'personal_access_client' => true,
-            'password_client'        => false,
-            'revoked'                => false,
-        ])->save();
+        $name     = config('app.name');
+        $redirect = config('app.url');
 
-        Passport::client()->forceFill([
-            'user_id'                => null,
-            'name'                   => config('app.name') . ' Password Access Client',
-            'secret'                 => Str::random(40),
-            'redirect'               => config('app.url'),
-            'personal_access_client' => false,
-            'password_client'        => true,
-            'revoked'                => false,
-        ])->save();
+        Artisan::call('passport:client --personal --name="' . $name . ' Personal Access Client" --redirect_uri="' . $redirect . '"');
+
+        Artisan::call('passport:client --password --name="' . $name . ' Password Access Client" --redirect_uri="' . $redirect . '"');
     }
 }
