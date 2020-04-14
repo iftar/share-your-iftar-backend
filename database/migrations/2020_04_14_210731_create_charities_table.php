@@ -17,7 +17,7 @@ class CreateCharitiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('charity_registration_number');
-            $table->string('max_delivery_capacity');
+            $table->integer('max_delivery_capacity');
             $table->timestamps();
         });
     }
