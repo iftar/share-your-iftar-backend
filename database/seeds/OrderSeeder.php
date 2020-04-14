@@ -23,20 +23,12 @@ class OrderSeeder extends Seeder
         factory(User::class, $this->users)->create()->each(function (User $user, $index) {
             echo "Creating Orders for User " . ($index + 1) . " / $this->users \n";
 
+            $order_types = ["collection", "delivery"];
+
             $orders = factory(Order::class, $this->ordersPerUser)->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'type' => $order_types[array_rand($order_types)]
             ]);
-
-            foreach ($orders as $newIndex => $order) {
-                factory(Status::class)->create([
-                    'order_id'    => $order->id,
-                    'pickup_id'   => null,
-                    'delivery_id' => null,
-                    'status'      => 'awaiting_acceptance'
-                ]);
-
-                echo ($newIndex + 1) . " / $this->ordersPerUser \n";
-            }
 
             echo "---------- \n";
         });

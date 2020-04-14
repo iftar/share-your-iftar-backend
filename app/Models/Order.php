@@ -10,6 +10,10 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'required_date',
+        'quantity',
+        'collection_point_id',
+        'collection_timeslot_id',
         'first_name',
         'last_name',
         'email',
@@ -19,29 +23,16 @@ class Order extends Model
         'town',
         'county',
         'post_code',
-        'quantity_child',
-        'quantity_adult',
         'notes',
-        'required_at',
     ];
 
     protected $casts = [
-        'required_at' => 'datetime',
+        'required_date' => 'date',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function pickup()
-    {
-        return $this->hasOne(Pickup::class);
-    }
-
-    public function status()
-    {
-        return $this->hasOne(Status::class);
     }
 
     public function getFullNameAttribute()
