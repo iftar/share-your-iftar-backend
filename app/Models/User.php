@@ -48,16 +48,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class);
     }
 
-    public function pickups()
-    {
-        return $this->hasMany(Pickup::class);
-    }
-
-    public function deliveries()
-    {
-        return $this->hasMany(Delivery::class);
-    }
-
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
