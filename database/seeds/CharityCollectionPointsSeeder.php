@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CharityUserMapSeeder extends Seeder
+class CharityCollectionPointsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

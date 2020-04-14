@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCharityUserMapsTable extends Migration
+class CreateCharityCollectionPointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCharityUserMapsTable extends Migration
      */
     public function up()
     {
-        Schema::create('charity_user_maps', function (Blueprint $table) {
+        Schema::create('charity_collection_points', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('charity_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('collection_point_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateCharityUserMapsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('charity_user_maps');
+        Schema::dropIfExists('charity_collection_points');
     }
 }
