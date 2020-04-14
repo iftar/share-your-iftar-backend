@@ -8,10 +8,10 @@ The User API allows users to register, login and reset their passwords.
 
 ### Form Headers
 
-All API endpoints require the following 
+All API endpoints require the following header
 
 ```
-Accept  application/json
+Content-Type: application/json
 ```
 
 ---
