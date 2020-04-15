@@ -13,7 +13,7 @@ class Order extends Model
         'required_date',
         'quantity',
         'collection_point_id',
-        'collection_timeslot_id',
+        'collection_point_time_slot_id',
         'first_name',
         'last_name',
         'email',
@@ -33,6 +33,16 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function batchOrder()
+    {
+        return $this->hasOne(BatchOrder::class);
+    }
+
+    public function batch()
+    {
+        return $this->batchOrder->batch;
     }
 
     public function getFullNameAttribute()

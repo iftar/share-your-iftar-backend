@@ -16,10 +16,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'approved' => 'Approved',
         'disabled' => 'Disabled'
     ];
-
-    protected $types = [
-        'user'    => 'User',
-        'charity' => 'Charity User'
+    protected $types    = [
+        'user'             => 'User',
+        'charity'          => 'Charity User',
+        'collection-point' => 'Collection Point User'
     ];
 
     protected $fillable = [
@@ -46,6 +46,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function charityUser()
+    {
+        return $this->hasOne(CharityUser::class);
+    }
+
+    public function charity()
+    {
+        return $this->charityUser->charity;
+    }
+
+    public function collectionPointUser()
+    {
+        return $this->hasOne(CollectionPointUser::class);
+    }
+
+    public function collectionPoint()
+    {
+        return $this->collectionPointUser->collectionPoint;
     }
 
     public function sendEmailVerificationNotification()

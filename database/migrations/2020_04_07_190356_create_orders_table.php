@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('quantity');
             $table->date('required_date');
             $table->string('collection_point_id');
-            $table->string('collection_timeslot_id')->nullable(); // only needed for collection
+            $table->string('collection_point_time_slot_id')->nullable(); // only needed for collection
 
             // user details
             $table->string('first_name');
@@ -33,7 +33,7 @@ class CreateOrdersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address_line_1')->nullable();
             $table->string('address_line_2')->nullable();
-            $table->string('town')->nullable();
+            $table->string('city')->nullable();
             $table->string('county')->nullable();
             $table->string('post_code')->nullable();
 

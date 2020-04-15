@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CharityUser extends Model
+class CollectionPointUser extends Model
 {
-    protected $table = 'charity_users';
+    protected $table = 'collection_point_users';
 
     protected $fillable = [
-        'charity_id',
+        'collection_point_id',
         'user_id',
     ];
 
-    public function charity()
+    public function collectionPoint()
     {
-        return $this->belongsTo(Charity::class);
+        return $this->belongsTo(CollectionPoint::class);
     }
 
     public function user()

@@ -28,6 +28,12 @@ $factory->state(User::class, 'charity', function ($faker) {
     ];
 });
 
+$factory->state(User::class, 'collection-point', function ($faker) {
+    return [
+        'type' => 'collection-point',
+    ];
+});
+
 function customEmail()
 {
     $faker = Factory::create('en_GB');

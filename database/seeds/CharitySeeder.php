@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Charity;
 use Illuminate\Database\Seeder;
 
 class CharitySeeder extends Seeder
@@ -11,6 +12,6 @@ class CharitySeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(Charity::class, 10)->create();
     }
 }

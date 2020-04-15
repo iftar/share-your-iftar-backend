@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCharitiesTable extends Migration
+class CreateBatchOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateCharitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('charities', function (Blueprint $table) {
+        Schema::create('batch_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('registration_number');
-            $table->integer('max_delivery_capacity');
+            $table->unsignedInteger('batch_id');
+            $table->unsignedInteger('order_id');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateCharitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('charities');
+        Schema::dropIfExists('batch_orders');
     }
 }
