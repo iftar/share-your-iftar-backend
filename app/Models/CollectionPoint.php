@@ -17,4 +17,24 @@ class CollectionPoint extends Model
         'post_code',
         'max_daily_capacity',
     ];
+
+    public function users()
+    {
+        return $this->hasManyThrough(User::class, CollectionPointUser::class);
+    }
+
+    public function charityCollectionPoint()
+    {
+        return $this->hasOne(CharityCollectionPoint::class);
+    }
+
+    public function charity()
+    {
+        return $this->charityCollectionPoint->charity;
+    }
+
+    public function collectionPointTimeSlots()
+    {
+        return $this->hasMany(CollectionPointTimeSlot::class);
+    }
 }

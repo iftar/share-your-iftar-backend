@@ -24,10 +24,14 @@ $factory->define(Order::class, function (Faker $faker, $options) {
         ? CollectionPointTimeSlot::find($options['collection_point_time_slot_id'])
         : factory(CollectionPointTimeSlot::class)->create();
 
+    $requiredDate = array_key_exists('required_date', $options)
+        ? $options['required_date']
+        : now()->addDays(rand(0, 7))->hour(rand(0, 13));
+
     return [
         'user_id'                       => $user->id,
-        'required_date'                 => $faker->dateTimeBetween('+1 day', '+7 days'),
-        'quantity'                      => rand(0, 5),
+        'required_date'                 => $requiredDate,
+        'quantity'                      => rand(1, 5),
         'collection_point_id'           => $collectionPoint->id,
         'collection_point_time_slot_id' => $collectionPointTimeSlot->id,
         'first_name'                    => $faker->firstName,
@@ -36,17 +40,22 @@ $factory->define(Order::class, function (Faker $faker, $options) {
         'phone'                         => null,
         'address_line_1'                => null,
         'address_line_2'                => null,
-        'town'                          => null,
+        'city'                          => null,
         'county'                        => null,
         'post_code'                     => null,
         'notes'                         => null,
     ];
 });
 
-$factory->state(Order::class, 'delivery', function ($faker, $options) {
+$factory->state(Order::class, 'charity-pickup', function ($faker, $options) {
     $faker = Factory::create('en_GB');
 
+    $collectionPoint = array_key_exists('collection_point_id', $options)
+        ? CollectionPoint::find($options['collection_point_id'])
+        : factory(CollectionPoint::class)->create();
+
     return [
+        'collection_point_id'           => $collectionPoint->id,
         'collection_point_time_slot_id' => null,
         'phone'                         => $faker->e164PhoneNumber,
         'address_line_1'                => $faker->streetAddress,

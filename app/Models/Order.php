@@ -35,6 +35,16 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function batchOrder()
+    {
+        return $this->hasOne(BatchOrder::class);
+    }
+
+    public function batch()
+    {
+        return $this->batchOrder->batch;
+    }
+
     public function getFullNameAttribute()
     {
         return "$this->first_name $this->last_name";

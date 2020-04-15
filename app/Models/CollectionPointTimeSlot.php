@@ -20,4 +20,9 @@ class CollectionPointTimeSlot extends Model
         'max_capacity',
         'type',
     ];
+
+    public function collectionPoint()
+    {
+        return $this->belongsTo(CollectionPoint::class);
+    }
 }

@@ -16,6 +16,6 @@ $factory->define(CollectionPoint::class, function (Faker $faker) {
         'city'               => $faker->city,
         'county'             => $faker->county,
         'post_code'          => $faker->postcode,
-        'max_daily_capacity' => rand(10, 200),
+        'max_daily_capacity' => rand(50, 100),
     ];
 });

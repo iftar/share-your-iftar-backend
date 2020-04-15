@@ -15,7 +15,7 @@ $factory->define(CharityUser::class, function (Faker $faker, $options) {
 
     $user = array_key_exists('user_id', $options)
         ? User::find($options['user_id'])
-        : factory(User::class)->create();
+        : factory(User::class)->state('charity')->create();
 
     return [
         'charity_id' => $charity->id,

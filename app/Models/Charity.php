@@ -13,4 +13,14 @@ class Charity extends Model
         'registration_number',
         'max_delivery_capacity',
     ];
+
+    public function collectionPoints()
+    {
+        return $this->hasManyThrough(CollectionPoint::class, CharityCollectionPoint::class);
+    }
+
+    public function users()
+    {
+        return $this->hasManyThrough(User::class, CharityUser::class);
+    }
 }
