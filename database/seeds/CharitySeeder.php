@@ -12,7 +12,6 @@ class CharitySeeder extends Seeder
      */
     public function run()
     {
-        //
         factory(Charity::class, 10)->create();
     }
 }

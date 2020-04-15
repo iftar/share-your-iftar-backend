@@ -13,7 +13,7 @@ class Order extends Model
         'required_date',
         'quantity',
         'collection_point_id',
-        'collection_timeslot_id',
+        'collection_point_time_slot_id',
         'first_name',
         'last_name',
         'email',

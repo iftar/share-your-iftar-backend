@@ -16,11 +16,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'approved' => 'Approved',
         'disabled' => 'Disabled'
     ];
-
     protected $types = [
-        'user'    => 'User',
-        'charity' => 'Charity User'
+        'user'             => 'User',
+        'charity'          => 'Charity User',
+        'collection-point' => 'Collection Point User'
     ];
+
 
     protected $fillable = [
         'first_name',

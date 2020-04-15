@@ -19,6 +19,7 @@ class CreateCollectionPointTimeSlotsTable extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->integer('max_capacity');
+            $table->string('type')->default('user_pickup');
             $table->timestamps();
         });
     }

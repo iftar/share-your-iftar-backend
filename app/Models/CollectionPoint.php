@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class CollectionPoint extends Model
 {
-    //
     protected $table = 'collection_points';
 
     protected $fillable = [
