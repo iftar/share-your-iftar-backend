@@ -56,12 +56,3 @@ $factory->state(Order::class, 'delivery', function ($faker, $options) {
         'post_code'                     => $faker->postcode,
     ];
 });
-
-function customEmail()
-{
-    $faker = Factory::create('en_GB');
-
-    return strtolower(
-        "$faker->firstName.$faker->firstName.$faker->lastName" . $faker->numberBetween(1, 1000) . "@$faker->domainName"
-    );
-}
