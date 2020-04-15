@@ -14,5 +14,6 @@ class CollectionPointTimeSlot extends Model
         'start_time',
         'end_time',
         'max_capacity',
+        'type',
     ];
 }
