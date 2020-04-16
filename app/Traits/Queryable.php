@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
 trait Queryable
@@ -14,6 +13,11 @@ trait Queryable
     public function setModel($model)
     {
         $this->model = $model;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 
     public function getFields()

@@ -11,13 +11,13 @@ class OrderController extends Controller
 {
     public function index(Request $request, OrderService $orderService)
     {
-        $filters = $orderService->getFiltersFromRequest($request);
-        $orderBy = $orderService->getOrderByFromRequest($request);
-
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'orders' => $orderService->get($filters, $orderBy)
+                'orders' => $orderService->get(
+                    $request->get('filter'),
+                    $request->get('orderBy')
+                )
             ]
         ]);
     }

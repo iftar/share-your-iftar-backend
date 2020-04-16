@@ -19,8 +19,8 @@ class OrderService
     {
         $orders = auth()->user()->orders();
 
-        $orders = $this->applyFilters($orders, $filters);
-        $orders = $this->applyOrderBy($orders, $orderBy);
+        $orders = $this->getFilters($filters)->applyFilters($orders);
+        $orders = $this->getOrderBy($orderBy)->applyOrderBy($orders);
 
         return $orders->get();
     }

@@ -6,40 +6,53 @@ trait OrderBy
 {
     protected $orderBySeparator = ',';
 
+    protected $orderByFields;
+
     public function setOrderBySeparator($separator)
     {
         $this->orderBySeparator = $separator;
     }
 
-    public function getOrderByFromRequest($request)
+    public function getOrderable()
     {
-        $orderByFields = [];
+        $model = $this->getModel();
 
-        if ($request->has('orderBy')) {
-            $fields = $this->getFields();
+        return property_exists($model, 'orderable')
+            ? $model::$orderable
+            : $this->getFields();
+    }
 
-            foreach ($request->get('orderBy') as $orderBy) {
-                $orderBy = explode($this->orderBySeparator, $orderBy);
+    public function getOrderBy($orderByFields)
+    {
+        $this->orderByFields = [];
 
-                if (in_array($orderBy[0], $fields)) {
-                    $orderByFields[] = [
-                        'field' => $orderBy[0],
-                        'order' => count($orderBy) == 2 ? $orderBy[1] : 'ASC'
-                    ];
-                }
+        if ( ! $orderByFields) {
+            return $this;
+        }
+
+        $fields = $this->getOrderable();
+
+        foreach ($orderByFields as $orderBy) {
+            $orderBy = explode($this->orderBySeparator, $orderBy);
+
+            if (in_array($orderBy[0], $fields)) {
+                $this->orderByFields[] = [
+                    'field' => $orderBy[0],
+                    'order' => count($orderBy) == 2 ? $orderBy[1] : 'ASC'
+                ];
             }
         }
 
-        return $orderByFields;
+        return $this;
     }
 
-    public function applyOrderBy($query, $orderByFields)
+    public function applyOrderBy($query)
     {
-        if ( ! $orderByFields) {
-            return $query->latest('required_date');
+        if ( ! count($this->orderByFields)) {
+            return $query;
         }
 
-        foreach ($orderByFields as $orderBy) {
+        foreach ($this->orderByFields as $orderBy) {
             $query->orderBy($orderBy['field'], $orderBy['order']);
         }
 

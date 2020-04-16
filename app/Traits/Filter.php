@@ -6,41 +6,54 @@ trait Filter
 {
     protected $filterSeparator = ',';
 
+    protected $filters;
+
     public function setFilterSeparator($separator)
     {
         $this->filterSeparator = $separator;
     }
 
-    public function getFiltersFromRequest($request)
+    public function getFilterable()
     {
-        $filters = [];
+        $model = $this->getModel();
 
-        if ($request->has('filter')) {
-            $fields = $this->getFields();
+        return property_exists($model, 'filterable')
+            ? $model::$filterable
+            : $this->getFields();
+    }
 
-            foreach ($request->get('filter') as $filter) {
-                $filter = explode($this->filterSeparator, $filter);
+    public function getFilters($filters)
+    {
+        $this->filters = [];
 
-                if (in_array($filter[0], $fields)) {
-                    $filters[] = [
-                        'field'    => $filter[0],
-                        'value'    => $filter[1],
-                        'operator' => count($filter) == 3 ? $filter[2] : '='
-                    ];
-                }
+        if ( ! $filters) {
+            return $this;
+        }
+
+        $fields = $this->getFilterable();
+
+        foreach ($filters as $filter) {
+            $filter = explode($this->filterSeparator, $filter);
+
+            if (in_array($filter[0], $fields)) {
+                $this->filters[] = [
+                    'field'    => $filter[0],
+                    'value'    => $filter[1],
+                    'operator' => count($filter) == 3 ? $filter[2] : '='
+                ];
             }
         }
 
-        return $filters;
+        return $this;
     }
 
-    public function applyFilters($query, $filters)
+    public function applyFilters($query)
     {
-        if ( ! $filters) {
+        if ( ! count($this->filters)) {
             return $query;
         }
 
-        foreach ($filters as $filter) {
+        foreach ($this->filters as $filter) {
             $query->where($filter['field'], $filter['operator'], $filter['value']);
         }
 
