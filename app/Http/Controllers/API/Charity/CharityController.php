@@ -12,7 +12,10 @@ class CharityController extends Controller
     {
         //
         $user = auth()->user();
-        return $user->charity();
+        return response()->json([
+            'status' => 'success',
+            'data'   => ['charity' => $user->charity()],
+        ]);
     }
 
     public function update(Request $request, CharityService $charityService)
@@ -27,6 +30,9 @@ class CharityController extends Controller
         $charity = auth()->user()->charity();
         $charity = $charityService->update($charity, $data);
 
-        return $charity;
+        return response()->json([
+            'status' => 'success',
+            'data'   => ['charity' => $charity],
+        ]);
     }
 }

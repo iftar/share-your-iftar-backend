@@ -17,11 +17,13 @@ class CharityTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'id' => $user->charity()->id,
-                'name' => $user->charity()->name,
-                'registration_number' => $user->charity()->registration_number,
-                'max_delivery_capacity' => $user->charity()->max_delivery_capacity,
-              ]);
+              'status' => 'success',
+              'data'   => [ 'charity' => [
+                  'id' => $user->charity()->id,
+                  'name' => $user->charity()->name,
+                  'registration_number' => $user->charity()->registration_number,
+                  'max_delivery_capacity' => $user->charity()->max_delivery_capacity,
+              ]]]);
     }
 
     public function testUpdateCharityName()
@@ -33,11 +35,13 @@ class CharityTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'id' => $user->charity()->id,
-                'name' => 'James foundation',
-                'registration_number' => $user->charity()->registration_number,
-                'max_delivery_capacity' => $user->charity()->max_delivery_capacity,
-              ]);
+              'status' => 'success',
+              'data'   => [ 'charity' => [
+                  'id' => $user->charity()->id,
+                  'name' => 'James foundation',
+                  'registration_number' => $user->charity()->registration_number,
+                  'max_delivery_capacity' => $user->charity()->max_delivery_capacity,
+              ]]]);
     }
 
     public function testUpdateCharityRegistrationNumber()
@@ -49,11 +53,13 @@ class CharityTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'id' => $user->charity()->id,
-                'name' => $user->charity()->name,
-                'registration_number' => '1321165464613',
-                'max_delivery_capacity' => $user->charity()->max_delivery_capacity,
-              ]);
+              'status' => 'success',
+              'data'   => [ 'charity' => [
+                  'id' => $user->charity()->id,
+                  'name' => $user->charity()->name,
+                  'registration_number' => '1321165464613',
+                  'max_delivery_capacity' => $user->charity()->max_delivery_capacity,
+              ]]]);
     }
 
     public function testUpdateCharityMaxDeliveryCapacity()
@@ -65,11 +71,13 @@ class CharityTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'id' => $user->charity()->id,
-                'name' => $user->charity()->name,
-                'registration_number' => $user->charity()->registration_number,
-                'max_delivery_capacity' => 132,
-              ]);
+              'status' => 'success',
+              'data'   => [ 'charity' => [
+                  'id' => $user->charity()->id,
+                  'name' => $user->charity()->name,
+                  'registration_number' => $user->charity()->registration_number,
+                  'max_delivery_capacity' => 132,
+              ]]]);
     }
 
     public function testUpdateCharityAll()
@@ -83,10 +91,12 @@ class CharityTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'id' => $user->charity()->id,
-                'name' => 'James foundation',
-                'registration_number' => '1321165464613',
-                'max_delivery_capacity' => 132,
-              ]);
+              'status' => 'success',
+              'data'   => [ 'charity' => [
+                  'id' => $user->charity()->id,
+                  'name' => 'James foundation',
+                  'registration_number' => '1321165464613',
+                  'max_delivery_capacity' => 132,
+              ]]]);
     }
 }
