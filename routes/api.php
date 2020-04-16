@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Collection Point Users API
     Route::group(['prefix' => 'collection-point', 'name' => 'collection-point.', 'namespace' => 'CollectionPoint'], function () {
         Route::get('/orders', 'OrderController@index');
+        Route::get('/profile', 'CollectionPointController@index');
     });
 
     Route::get('logout', 'AuthController@logout');
