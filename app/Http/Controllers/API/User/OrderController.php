@@ -24,7 +24,9 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request, OrderService $orderService)
     {
-        $order = $orderService->create($orderService->getFillable($request));
+        $order = $orderService->create(
+            $orderService->queryable()->getFillable($request)
+        );
 
         return response()->json([
             'status' => 'success',

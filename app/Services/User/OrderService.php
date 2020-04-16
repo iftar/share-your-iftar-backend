@@ -3,24 +3,29 @@
 namespace App\Services\User;
 
 use App\Models\Order;
-use App\Traits\Queryable;
+use App\Support\Queryable;
 use App\Events\Order\Created;
 
 class OrderService
 {
-    use Queryable;
+    protected $queryable;
 
     public function __construct()
     {
-        $this->setModel(Order::class);
+        $this->queryable = new Queryable(Order::class);
+    }
+
+    public function queryable()
+    {
+        return $this->queryable;
     }
 
     public function get($filters = null, $orderBy = null)
     {
         $orders = auth()->user()->orders();
 
-        $orders = $this->getFilters($filters)->applyFilters($orders);
-        $orders = $this->getOrderBy($orderBy)->applyOrderBy($orders);
+        $orders = $this->queryable->filter($orders, $filters);
+        $orders = $this->queryable->orderBy($orders, $orderBy);
 
         return $orders->get();
     }

@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Traits;
+namespace App\Support;
 
+use App\Traits\Filter;
+use App\Traits\OrderBy;
 use Illuminate\Support\Facades\Schema;
 
-trait Queryable
+class Queryable
 {
     use Filter, OrderBy;
 
     protected $model;
 
-    public function setModel($model)
+    public function __construct($model)
     {
         $this->model = $model;
     }
