@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\User\Registered;
+use App\Events\Order\Created as OrderCreated;
+use App\Events\User\Registered as UserRegistered;
 use App\Listeners\User\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -14,8 +15,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
+        UserRegistered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        OrderCreated::class => [
+
         ],
     ];
 
@@ -27,7 +32,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
-        //
     }
 }

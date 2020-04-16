@@ -15,7 +15,7 @@ class Registered
     /**
      * The authenticated user.
      *
-     * @var Authenticatable | User
+     * @var Authenticatable | User $user
      */
     public $user;
 
