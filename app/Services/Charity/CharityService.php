@@ -15,18 +15,14 @@ class CharityService
         ]);
     }
 
-    public function get($id)
+    public function update(Charity $charity, $data = [])
     {
-        return Charity::find($id);
-    }
+        if (isset($data['name'])) $charity->name = $data['name'];
+        if (isset($data['registration_number'])) $charity->registration_number = $data['registration_number'];
+        if (isset($data['max_delivery_capacity'])) $charity->max_delivery_capacity = $data['max_delivery_capacity'];
 
-    public function collectionPoints($charity_id)
-    {
-        return $this->get($charity_id)->collectionPoints();
-    }
+        $charity->save();
 
-    public function charityUsers($charity_id)
-    {
-        return $this->get($charity_id)->users();
+        return $charity;
     }
 }

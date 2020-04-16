@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'charity', 'name' => 'charity.', 'namespace' => 'Charity'], function () {
         Route::get('/orders', 'OrderController@index');
         Route::get('/profile', 'CharityController@index');
+        Route::post('/profile', 'CharityController@update');
     });
 
     // Collection Point Users API

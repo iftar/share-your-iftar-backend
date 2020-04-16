@@ -4,14 +4,10 @@ namespace App\Http\Controllers\API\Charity;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\Charity\CharityService;
 
 class CharityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
@@ -19,26 +15,18 @@ class CharityController extends Controller
         return $user->charity();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function update(Request $request, CharityService $charityService)
     {
         //
-    }
+        $data = [
+            "name"                  => $request->input('name'),
+            "registration_number"   => $request->input('registration_number'),
+            "max_delivery_capacity" => $request->input('max_delivery_capacity'),
+        ];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $charity = auth()->user()->charity();
+        $charity = $charityService->update($charity, $data);
+
+        return $charity;
     }
 }
