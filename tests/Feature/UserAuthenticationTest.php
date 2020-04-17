@@ -35,4 +35,30 @@ class UserAuthenticationTest extends TestCase
                     'status'            => 'approved',
                 ]]]);
     }
+
+    public function testRegisterCharityUser()
+    {
+        $password = $this->faker->password;
+        $postData = [
+            'email'             => $this->faker->email,
+            'password'          => $password,
+            'confirm'           => $password,
+            'first_name'        => $this->faker->firstName,
+            'last_name'         => $this->faker->firstName,
+            'type'              => 'charity',
+        ];
+        $response = $this->postJson('/api/register', $postData);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "status" => "success",
+                "data" => [ "user" => [
+                    'email'             => $postData['email'],
+                    'first_name'        => $postData['first_name'],
+                    'last_name'         => $postData['last_name'],
+                    'type'              => $postData['type'],
+                    'status'            => 'approved',
+                ]]]);
+    }
 }
