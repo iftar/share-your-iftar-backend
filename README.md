@@ -50,5 +50,5 @@ php artisan serve
 ### How to run test
 
 ```
-composer test
+php artisan test
 ```
