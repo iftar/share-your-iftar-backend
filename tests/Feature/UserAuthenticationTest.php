@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Laravel\Passport\Passport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use OauthClientSeeder;
 
 class UserAuthenticationTest extends TestCase
 {
@@ -107,6 +107,9 @@ class UserAuthenticationTest extends TestCase
 
     public function testRegisterThenLoginAfterVerifying()
     {
+        // creates oauth tokens
+        $this->seed(OauthClientSeeder::class);
+
         // register
         $password = $this->faker->password;
         $postData = [
@@ -138,12 +141,6 @@ class UserAuthenticationTest extends TestCase
         $verified = $user->markEmailAsVerified();
         $this->assertTrue($verified);
 
-        // create personal token
-        // https://laravel.com/docs/7.x/passport#testing
-        Passport::actingAs(
-            $user, ["blahblah"]
-        );
-
         // login
         $loginData = [
             "email" => $postData["email"],
@@ -151,12 +148,21 @@ class UserAuthenticationTest extends TestCase
         ];
         $response = $this->postJson('/api/login', $loginData);
 
-
         $response
             ->assertStatus(200)
             ->assertJson([
                 "status" => "success",
-                "data" => []
+                "data" => [
+                    "user" => [
+                        'id'                => $user->id,
+                        'email'             => $user->email,
+                        'first_name'        => $user->first_name,
+                        'last_name'         => $user->last_name,
+                        'type'              => $user->type,
+                        'status'            => 'approved',
+                    ],
+                    "token" => $user->token()
+                ]
             ]);
     }
 }
