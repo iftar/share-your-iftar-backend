@@ -48,24 +48,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class);
     }
 
-    public function charityUser()
+    public function charities()
     {
-        return $this->hasOne(CharityUser::class);
-    }
-
-    public function charity()
-    {
-        return $this->charityUser->charity;
-    }
-
-    public function collectionPointUser()
-    {
-        return $this->hasOne(CollectionPointUser::class);
+        return $this->belongsToMany(Charity::class, 'charity_users');
     }
 
     public function collectionPoint()
     {
-        return $this->collectionPointUser->collectionPoint;
+        return $this->belongsToMany(CollectionPoint::class, 'collection_point_users');
     }
 
     public function sendEmailVerificationNotification()

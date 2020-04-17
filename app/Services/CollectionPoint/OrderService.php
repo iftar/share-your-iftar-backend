@@ -30,7 +30,7 @@ class OrderService
             $filters[] = "required_date,$today,=,whereDate";
         }
 
-        $userCollectionPoint = auth()->user()->collectionPoint();
+        $userCollectionPoint = auth()->user()->collectionPoint->first();
 
         $orders = Order::where('collection_point_id', $userCollectionPoint->id);
         $orders = $this->queryable->filter($orders, $filters);
@@ -41,7 +41,7 @@ class OrderService
             $type     = $order->collectionPointTimeSlot->type;
             $timeSlot = $order->collectionPointTimeSlot->start_time . ' - ' . $order->collectionPointTimeSlot->end_time;
 
-            $result[$type][$timeSlot] = $order;
+            $result[$type][$timeSlot][] = $order;
         }
 
         return $result;

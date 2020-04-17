@@ -16,11 +16,11 @@ class Charity extends Model
 
     public function collectionPoints()
     {
-        return $this->hasManyThrough(CollectionPoint::class, CharityCollectionPoint::class);
+        return $this->belongsToMany(CollectionPoint::class, 'charity_collection_points');
     }
 
     public function users()
     {
-        return $this->hasManyThrough(User::class, CharityUser::class);
+        return $this->belongsToMany(User::class, 'charity_users');
     }
 }

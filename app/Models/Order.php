@@ -8,7 +8,7 @@ class Order extends Model
 {
     protected $table = 'orders';
 
-    protected $with = ['collectionPointTimeSlot'];
+    protected $with = ['collectionPoint', 'collectionPointTimeSlot'];
 
     protected $fillable = [
         'user_id',
@@ -40,6 +40,11 @@ class Order extends Model
     public function batchOrder()
     {
         return $this->hasOne(BatchOrder::class);
+    }
+
+    public function collectionPoint()
+    {
+        return $this->belongsTo(CollectionPoint::class);
     }
 
     public function collectionPointTimeSlot()
