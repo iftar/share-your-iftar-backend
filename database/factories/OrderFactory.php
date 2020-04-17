@@ -27,6 +27,14 @@ $factory->define(Order::class, function (Faker $faker, $options) {
     $requiredDate = array_key_exists('required_date', $options)
         ? $options['required_date']
         : now()->addDays(rand(0, 7))->hour(rand(0, 13));
+    
+    $customEmail = function() {
+        $faker = Factory::create('en_GB');
+
+        return strtolower(
+            "$faker->firstName.$faker->firstName.$faker->lastName" . $faker->numberBetween(1, 1000) . "@$faker->domainName"
+        );
+    };
 
     return [
         'user_id'                       => $user->id,
@@ -36,7 +44,7 @@ $factory->define(Order::class, function (Faker $faker, $options) {
         'collection_point_time_slot_id' => $collectionPointTimeSlot->id,
         'first_name'                    => $faker->firstName,
         'last_name'                     => $faker->lastName,
-        'email'                         => customEmail(),
+        'email'                         => $customEmail(),
         'phone'                         => null,
         'address_line_1'                => null,
         'address_line_2'                => null,
