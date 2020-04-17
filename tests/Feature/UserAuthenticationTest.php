@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use OauthClientSeeder;
 
@@ -140,6 +141,9 @@ class UserAuthenticationTest extends TestCase
         // verify
         $verified = $user->markEmailAsVerified();
         $this->assertTrue($verified);
+
+        // Passport checks
+        $this->assertTrue(Passport::personalAccessClient()->exists());
 
         // login
         $loginData = [
