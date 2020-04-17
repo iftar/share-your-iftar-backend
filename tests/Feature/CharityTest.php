@@ -14,6 +14,7 @@ class CharityTest extends TestCase
     {
         $user = factory(CharityUser::class)->create()->user;
         $response = $this->actingAs($user, "api")->get('/api/charity/profile');
+
         $response
             ->assertStatus(200)
             ->assertJson([
@@ -32,6 +33,7 @@ class CharityTest extends TestCase
         $response = $this->actingAs($user, "api")->postJson('/api/charity/profile', [
           'name' => 'James foundation'
         ]);
+
         $response
             ->assertStatus(200)
             ->assertJson([
@@ -50,6 +52,7 @@ class CharityTest extends TestCase
         $response = $this->actingAs($user, "api")->postJson('/api/charity/profile', [
           'registration_number' => '1321165464613'
         ]);
+
         $response
             ->assertStatus(200)
             ->assertJson([
@@ -68,6 +71,7 @@ class CharityTest extends TestCase
         $response = $this->actingAs($user, "api")->postJson('/api/charity/profile', [
           'max_delivery_capacity' => 132
         ]);
+
         $response
             ->assertStatus(200)
             ->assertJson([
@@ -88,6 +92,7 @@ class CharityTest extends TestCase
           'registration_number' => '1321165464613',
           'max_delivery_capacity' => 132,
         ]);
+
         $response
             ->assertStatus(200)
             ->assertJson([
