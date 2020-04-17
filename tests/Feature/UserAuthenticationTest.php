@@ -161,7 +161,7 @@ class UserAuthenticationTest extends TestCase
                         'type'              => $user->type,
                         'status'            => 'approved',
                     ],
-                    "token" => $user->token()
+                    // "token" => $user->token() // @HasnatH to implement
                 ]
             ]);
     }
