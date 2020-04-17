@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Users API
     Route::group(['prefix' => 'user', 'name' => 'user.', 'namespace' => 'User'], function () {
         Route::get('/orders', 'OrderController@index');
+        Route::post('/orders', 'OrderController@store');
     });
 
     // Charity Users API

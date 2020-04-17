@@ -9,6 +9,7 @@ use App\Services\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\User\LoginRequest;
 use App\Http\Requests\API\User\RegisterRequest;
+use App\Http\Requests\API\UnauthenticatedRequest;
 
 class AuthController extends Controller
 {
@@ -61,7 +62,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(AuthService $authService)
+    public function logout(UnauthenticatedRequest $request, AuthService $authService)
     {
         /** @var User $user */
         $user = auth()->user();

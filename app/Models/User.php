@@ -77,4 +77,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return "$this->first_name $this->last_name";
     }
+
+    public function isApproved()
+    {
+        return $this->status == 'approved';
+    }
+
+    public function isType($type)
+    {
+        return $this->type == $type;
+    }
 }

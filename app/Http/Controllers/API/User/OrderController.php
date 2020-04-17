@@ -2,47 +2,37 @@
 
 namespace App\Http\Controllers\API\User;
 
-use Illuminate\Http\Request;
 use App\Services\User\OrderService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\User\AuthenticatedRequest;
+use App\Http\Requests\API\User\StoreOrderAuthenticatedRequest;
 
 class OrderController extends Controller
 {
-    public function index(OrderService $orderService)
+    public function index(AuthenticatedRequest $request, OrderService $orderService)
     {
         return response()->json([
             'status' => 'success',
-            'data'   => $orderService->list()
+            'data'   => [
+                'orders' => $orderService->get(
+                    $request->get('filter'),
+                    $request->get('orderBy')
+                )
+            ]
         ]);
     }
 
-    public function create()
+    public function store(StoreOrderAuthenticatedRequest $request, OrderService $orderService)
     {
-        //
-    }
+        $order = $orderService->create(
+            $orderService->queryable()->getFillable($request)
+        );
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'order' => $order
+            ]
+        ]);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -64,6 +65,8 @@ class Handler extends ExceptionHandler
             return $this->unauthenticated($request, $exception);
         } elseif ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($exception, $request);
+        } elseif ($exception instanceof AccessDeniedHttpException) {
+            return $this->accessDenied($request, $exception);
         }
 
         if ($request->wantsJson()) {
@@ -98,6 +101,18 @@ class Handler extends ExceptionHandler
                 'status'  => 'error',
                 'message' => 'Unauthenticated'
             ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return redirect()->guest('/');
+    }
+
+    protected function accessDenied($request, AccessDeniedHttpException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Access Denied'
+            ], Response::HTTP_FORBIDDEN);
         }
 
         return redirect()->guest('/');

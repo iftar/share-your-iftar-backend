@@ -146,7 +146,8 @@ class OrderSeeder extends Seeder
 
         foreach ($this->deliveryTimeSlots as $collectionPointTimeSlot) {
             factory(Order::class, $this->ordersPerTimeSlot)->state('charity-pickup')->create([
-                'collection_point_id' => $collectionPointTimeSlot->collectionPoint->id,
+                'collection_point_id'           => $collectionPointTimeSlot->collectionPoint->id,
+                'collection_point_time_slot_id' => $collectionPointTimeSlot->id,
             ])->each(function ($order) {
                 $this->orders[] = $order;
             });

@@ -54,9 +54,13 @@ $factory->state(Order::class, 'charity-pickup', function ($faker, $options) {
         ? CollectionPoint::find($options['collection_point_id'])
         : factory(CollectionPoint::class)->create();
 
+    $collectionPointTimeSlot = array_key_exists('collection_point_time_slot_id', $options)
+        ? CollectionPointTimeSlot::find($options['collection_point_time_slot_id'])
+        : factory(CollectionPointTimeSlot::class)->create();
+
     return [
         'collection_point_id'           => $collectionPoint->id,
-        'collection_point_time_slot_id' => null,
+        'collection_point_time_slot_id' => $collectionPointTimeSlot->id,
         'phone'                         => $faker->e164PhoneNumber,
         'address_line_1'                => $faker->streetAddress,
         'address_line_2'                => $faker->streetName,
