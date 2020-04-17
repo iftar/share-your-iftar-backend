@@ -2,47 +2,22 @@
 
 namespace App\Http\Controllers\API\CollectionPoint;
 
-use Illuminate\Http\Request;
-use App\Services\CollectionPoint\OrderService;
 use App\Http\Controllers\Controller;
+use App\Services\CollectionPoint\OrderService;
+use App\Http\Requests\API\CollectionPoint\AuthenticatedRequest;
 
 class OrderController extends Controller
 {
-    public function index(OrderService $orderService)
+    public function index(AuthenticatedRequest $request, OrderService $orderService)
     {
         return response()->json([
             'status' => 'success',
-            'data'   => $orderService->list()
+            'data'   => [
+                'orders' => $orderService->get(
+                    $request->get('filter'),
+                    $request->get('orderBy')
+                )
+            ]
         ]);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }

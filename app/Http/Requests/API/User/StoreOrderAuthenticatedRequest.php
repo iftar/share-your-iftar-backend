@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\API\User;
 
-use App\Http\Requests\API\Request;
-
-class StoreOrderRequest extends Request
+class StoreOrderAuthenticatedRequest extends AuthenticatedRequest
 {
     public function rules()
     {

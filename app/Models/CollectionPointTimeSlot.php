@@ -8,6 +8,8 @@ class CollectionPointTimeSlot extends Model
 {
     protected $table = 'collection_point_time_slots';
 
+    protected $with = ['collectionPoint'];
+
     protected $types = [
         'user_pickup'    => 'User Pickup',
         'charity_pickup' => 'Charity Pickup',
@@ -24,5 +26,10 @@ class CollectionPointTimeSlot extends Model
     public function collectionPoint()
     {
         return $this->belongsTo(CollectionPoint::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

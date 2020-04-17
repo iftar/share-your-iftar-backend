@@ -8,6 +8,8 @@ class Order extends Model
 {
     protected $table = 'orders';
 
+    protected $with = ['collectionPointTimeSlot'];
+
     protected $fillable = [
         'user_id',
         'required_date',
@@ -38,6 +40,18 @@ class Order extends Model
     public function batchOrder()
     {
         return $this->hasOne(BatchOrder::class);
+    }
+
+    public function collectionPointTimeSlot()
+    {
+        return $this->belongsTo(CollectionPointTimeSlot::class);
+    }
+
+    public function scopeWhereType($query, $type)
+    {
+        return $query->whereHas('collectionPointTimeSlot', function ($query) use ($type) {
+            $query->where('type', $type);
+        });
     }
 
     public function batch()
