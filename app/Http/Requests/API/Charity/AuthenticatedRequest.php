@@ -16,8 +16,7 @@ class AuthenticatedRequest extends APIRequest
 
         return $user->isApproved()
             && $user->isType('charity')
-            && $user->charityUser
-            && $user->charity();
+            && $user->charities->count();
     }
 
     public function rules()

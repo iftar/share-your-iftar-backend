@@ -8,8 +8,6 @@ class CollectionPointTimeSlot extends Model
 {
     protected $table = 'collection_point_time_slots';
 
-    protected $with = ['collectionPoint'];
-
     protected $types = [
         'user_pickup'    => 'User Pickup',
         'charity_pickup' => 'Charity Pickup',

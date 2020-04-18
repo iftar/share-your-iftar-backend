@@ -2,46 +2,30 @@
 
 namespace App\Services\CollectionPoint;
 
-use App\Models\Order;
-use App\Support\Queryable;
+use App\Models\CollectionPoint;
+use App\Models\CollectionPointTimeSlot;
 
 class OrderService
 {
-    protected $queryable;
-
-    public function __construct()
+    public function get()
     {
-        $this->queryable = new Queryable(Order::class);
-    }
+        $result = [
+            'user_pickup'    => [],
+            'charity_pickup' => []
+        ];
 
-    public function queryable()
-    {
-        return $this->queryable;
-    }
+        /** @var CollectionPoint $userCollectionPoint */
+        $userCollectionPoint = auth()->user()->collectionPoint->first();
 
-    public function get($filters = null, $orderBy = null)
-    {
-        $result = [];
+        $collectionTimeSlots = CollectionPointTimeSlot::where('collection_point_id', $userCollectionPoint->id)
+                                                      ->with([
+                                                          'orders' => function ($query) {
+                                                              $query->whereDate('required_date', today()->format('Y-m-d'));
+                                                          }
+                                                      ])->get();
 
-        $filters = $filters ?: [];
-
-        if ( ! count(preg_grep('/^required_date/i', $filters))) {
-            $today     = today()->format('Y-m-d');
-            $filters[] = "required_date,$today,=,whereDate";
-        }
-
-        $userCollectionPoint = auth()->user()->collectionPoint();
-
-        $orders = Order::where('collection_point_id', $userCollectionPoint->id);
-        $orders = $this->queryable->filter($orders, $filters);
-        $orders = $this->queryable->orderBy($orders, $orderBy);
-        $orders = $orders->get();
-
-        foreach ($orders as $order) {
-            $type     = $order->collectionPointTimeSlot->type;
-            $timeSlot = $order->collectionPointTimeSlot->start_time . ' - ' . $order->collectionPointTimeSlot->end_time;
-
-            $result[$type][$timeSlot] = $order;
+        foreach ($collectionTimeSlots as $timeSlot) {
+            $result[$timeSlot->type][] = $timeSlot;
         }
 
         return $result;

@@ -13,10 +13,7 @@ class OrderController extends Controller
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'orders' => $orderService->get(
-                    $request->get('filter'),
-                    $request->get('orderBy')
-                )
+                'collection_point_time_slots' => $orderService->get()
             ]
         ]);
     }

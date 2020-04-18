@@ -20,21 +20,21 @@ class CollectionPoint extends Model
 
     public function users()
     {
-        return $this->hasManyThrough(User::class, CollectionPointUser::class);
-    }
-
-    public function charityCollectionPoint()
-    {
-        return $this->hasOne(CharityCollectionPoint::class);
+        return $this->belongsToMany(User::class, 'collection_point_users');
     }
 
     public function charity()
     {
-        return $this->charityCollectionPoint->charity;
+        return $this->belongsToMany(Charity::class, 'charity_collection_points');
     }
 
     public function collectionPointTimeSlots()
     {
         return $this->hasMany(CollectionPointTimeSlot::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
