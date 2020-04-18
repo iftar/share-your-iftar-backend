@@ -8,6 +8,6 @@ class CollectionPointService
 {
     public function list()
     {
-        return CollectionPoint::paginate(15);
+        return CollectionPoint::with('collectionPointTimeSlots')->paginate(15);
     }
 }
