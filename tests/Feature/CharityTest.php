@@ -2,13 +2,26 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\CharityUser;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CharityTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function testGetCharityList()
+    {
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user, "api")->get('/api/charities');
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data'   => [ 'charities' => [] ]]);
+    }
 
     public function testGetCharityProfile()
     {

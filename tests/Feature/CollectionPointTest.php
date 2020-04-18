@@ -15,7 +15,7 @@ class CollectionPointTest extends TestCase
     public function testGetCollectionPointList()
     {
         $user = factory(User::class)->create();
-        $response = $this->actingAs($user, "api")->get('/api/user/collection-points');
+        $response = $this->actingAs($user, "api")->get('/api/collection-points');
 
         $response
             ->assertStatus(200)
