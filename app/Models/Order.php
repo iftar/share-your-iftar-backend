@@ -8,8 +8,6 @@ class Order extends Model
 {
     protected $table = 'orders';
 
-    protected $with = ['collectionPoint', 'collectionPointTimeSlot'];
-
     protected $fillable = [
         'user_id',
         'required_date',

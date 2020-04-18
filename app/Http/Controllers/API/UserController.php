@@ -3,51 +3,32 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Services\UserService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\User\UpdateRequest;
+use App\Http\Requests\API\User\AuthenticatedRequest;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    public function index(AuthenticatedRequest $request, UserService $userService)
     {
-        /** @var User $user */
-        $user = auth()->user();
-
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'user'  => $user
+                'user' => $userService->get()
             ]
         ]);
     }
 
-    public function create()
+    public function update(UpdateRequest $request, UserService $userService, User $user)
     {
-        //
-    }
+        $user = $userService->update($user, $userService->getFillable($request));
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(User $user)
-    {
-        //
-    }
-
-    public function edit(User $user)
-    {
-        //
-    }
-
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    public function destroy(User $user)
-    {
-        //
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'user' => $user
+            ]
+        ]);
     }
 }

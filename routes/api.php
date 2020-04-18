@@ -21,11 +21,15 @@ Route::post('register', 'AuthController@register');
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/user', 'UserController@index');
+    Route::post('/user/{user}', 'UserController@update');
 
     // Users API
     Route::group(['prefix' => 'user', 'name' => 'user.', 'namespace' => 'User'], function () {
         Route::get('/orders', 'OrderController@index');
         Route::post('/orders', 'OrderController@store');
+        Route::get('/orders/{order}', 'OrderController@show');
+        Route::post('/orders/{order}', 'OrderController@update');
+//        Route::post('/orders/{order}/delete', 'OrderController@destroy');
     });
 
     // Charity Users API
