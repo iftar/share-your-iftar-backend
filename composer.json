@@ -83,10 +83,10 @@
         "post-install-cmd": [
             "php artisan clear-compiled",
             "php artisan passport:keys",
-            "cghooks add --ignore-lock"
+            "./vendor/bin/cghooks add --ignore-lock"
         ],
         "post-update-cmd": [
-            "cghooks update"
+            "./vendor/bin/cghooks update"
         ]
     }
 }
