@@ -8,6 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -67,6 +68,8 @@ class Handler extends ExceptionHandler
             return $this->convertValidationExceptionToResponse($exception, $request);
         } elseif ($exception instanceof AccessDeniedHttpException) {
             return $this->accessDenied($request, $exception);
+        } elseif ($exception instanceof MethodNotAllowedHttpException) {
+            return $this->invalidMethod($request, $exception);
         }
 
         if ($request->wantsJson()) {
@@ -113,6 +116,18 @@ class Handler extends ExceptionHandler
                 'status'  => 'error',
                 'message' => 'Access Denied'
             ], Response::HTTP_FORBIDDEN);
+        }
+
+        return redirect()->guest('/');
+    }
+
+    protected function invalidMethod($request, MethodNotAllowedHttpException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Invalid Method / URL'
+            ], Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
         return redirect()->guest('/');

@@ -3,46 +3,32 @@
 namespace App\Http\Controllers\API\CollectionPoint;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\CollectionPoint\UpdateRequest;
 use App\Services\CollectionPoint\CollectionPointService;
-use Illuminate\Http\Request;
+use App\Http\Requests\API\CollectionPoint\AuthenticatedRequest;
 
 class CollectionPointController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(AuthenticatedRequest $request, CollectionPointService $collectionPointService)
     {
-        //
-        $user = auth()->user();
         return response()->json([
             'status' => 'success',
-            'data'   => ['collection_point' => $user->collectionPoint()],
+            'data'   => [
+                'collection_point' => $collectionPointService->get()
+            ]
         ]);
     }
 
-    public function update(Request $request, CollectionPointService $collectionPointService)
+    public function update(UpdateRequest $request, CollectionPointService $collectionPointService)
     {
-        //
-        
-        $data = [
-            "name"                          => $request->input("name"),
-            "address_line_1"                => $request->input("address_line_1"),
-            "address_line_2"                => $request->input("address_line_2"),
-            "city"                          => $request->input("city"),
-            "county"                        => $request->input("county"),
-            "post_code"                     => $request->input("post_code"),
-            "max_daily_capacity"            => $request->input("max_daily_capacity"),
-        ];
-
         $collectionPoint = auth()->user()->collectionPoint();
-        $collectionPoint = $collectionPointService->update($collectionPoint, $data);
+        $collectionPoint = $collectionPointService->update($collectionPoint, $collectionPointService->getFillable($request));
 
         return response()->json([
             'status' => 'success',
-            'data'   => ['collection_point' => $collectionPoint],
+            'data'   => [
+                'collection_point' => $collectionPoint
+            ]
         ]);
     }
 }

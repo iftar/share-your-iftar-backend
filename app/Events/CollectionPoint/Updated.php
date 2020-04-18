@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events\Order;
+namespace App\Events\CollectionPoint;
 
-use App\Models\Order;
+use App\Models\CollectionPoint;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -12,17 +12,17 @@ class Updated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Order $order
+     * @var CollectionPoint $collectionPoint
      */
-    public $order;
+    public $collectionPoint;
 
     /**
      * Create a new event instance.
      *
-     * @param Order $order
+     * @param CollectionPoint $collectionPoint
      */
-    public function __construct(Order $order)
+    public function __construct(CollectionPoint $collectionPoint)
     {
-        $this->order = $order;
+        $this->collectionPoint = $collectionPoint;
     }
 }

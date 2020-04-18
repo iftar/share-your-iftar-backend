@@ -15,7 +15,7 @@ class OrderService
         ];
 
         /** @var CollectionPoint $userCollectionPoint */
-        $userCollectionPoint = auth()->user()->collectionPoint->first();
+        $userCollectionPoint = auth()->user()->collectionPoints->first();
 
         $collectionTimeSlots = CollectionPointTimeSlot::where('collection_point_id', $userCollectionPoint->id)
                                                       ->with([
