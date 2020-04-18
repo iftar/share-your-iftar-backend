@@ -1,5 +1,9 @@
 # Share your Iftar Project
 
+## Documentation
+
+https://docs.google.com/document/d/1VLw98wvg7Yyq46QgAv5rYjwUJCk4Uwb_dC9OBWCLvaQ/edit#heading=h.cfi0qvphrdn8
+
 ## About the project
 
 ### OVERVIEW
