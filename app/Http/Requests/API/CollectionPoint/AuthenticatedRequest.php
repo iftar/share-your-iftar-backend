@@ -16,7 +16,7 @@ class AuthenticatedRequest extends APIRequest
 
         return $user->isApproved()
             && $user->isType('collection-point')
-            && $user->collectionPoint->count();
+            && $user->collectionPoints->count();
     }
 
     public function rules()

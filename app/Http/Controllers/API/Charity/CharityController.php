@@ -3,36 +3,32 @@
 namespace App\Http\Controllers\API\Charity;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Services\Charity\CharityService;
+use App\Http\Requests\API\Charity\UpdateRequest;
+use App\Http\Requests\API\Charity\AuthenticatedRequest;
 
 class CharityController extends Controller
 {
-    public function index()
+    public function index(AuthenticatedRequest $request, CharityService $charityService)
     {
-        //
-        $user = auth()->user();
         return response()->json([
             'status' => 'success',
-            'data'   => ['charity' => $user->charity()],
+            'data'   => [
+                'charity' => $charityService->get()
+            ]
         ]);
     }
 
-    public function update(Request $request, CharityService $charityService)
+    public function update(UpdateRequest $request, CharityService $charityService)
     {
-        //
-        $data = [
-            "name"                  => $request->input('name'),
-            "registration_number"   => $request->input('registration_number'),
-            "max_delivery_capacity" => $request->input('max_delivery_capacity'),
-        ];
-
         $charity = auth()->user()->charity();
-        $charity = $charityService->update($charity, $data);
+        $charity = $charityService->update($charity, $charityService->getFillable($request));
 
         return response()->json([
             'status' => 'success',
-            'data'   => ['charity' => $charity],
+            'data'   => [
+                'charity' => $charity
+            ]
         ]);
     }
 }

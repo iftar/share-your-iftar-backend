@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events\Order;
+namespace App\Events\Charity;
 
-use App\Models\Order;
+use App\Models\Charity;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -12,17 +12,17 @@ class Created
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Order $order
+     * @var Charity $charity
      */
-    public $order;
+    public $charity;
 
     /**
      * Create a new event instance.
      *
-     * @param Order $order
+     * @param Charity $charity
      */
-    public function __construct(Order $order)
+    public function __construct(Charity $charity)
     {
-        $this->order = $order;
+        $this->charity = $charity;
     }
 }

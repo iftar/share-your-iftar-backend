@@ -25,13 +25,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/', 'UserController@index');
         Route::post('/', 'UserController@update');
 
-        Route::get('/collection-points', 'CollectionPointController@index');
-
         Route::get('/orders', 'OrderController@index');
         Route::post('/orders', 'OrderController@store');
         Route::get('/orders/{order}', 'OrderController@show');
         Route::post('/orders/{order}', 'OrderController@update');
-//        Route::post('/orders/{order}/delete', 'OrderController@destroy');
     });
 
     // Charity Users API
@@ -49,6 +46,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         Route::get('/orders', 'OrderController@index');
     });
+
+    Route::get('/charities', 'CharityController@index');
+    Route::get('/collection-points', 'CollectionPointController@index');
 
     Route::get('logout', 'AuthController@logout');
 });
