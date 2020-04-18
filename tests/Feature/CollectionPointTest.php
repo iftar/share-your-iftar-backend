@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\CollectionPointUser;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -10,6 +11,18 @@ use Tests\TestCase;
 class CollectionPointTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function testGetCollectionPointList()
+    {
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user, "api")->get('/api/user/collection-points');
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data'   => [ 'collection_points' => [] ]]);
+    }
 
     public function testGetCollectionPointProfile()
     {
