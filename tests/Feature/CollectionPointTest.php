@@ -27,7 +27,7 @@ class CollectionPointTest extends TestCase
     public function testGetCollectionPointProfile()
     {
         $user = factory(CollectionPointUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->get('/api/collection-point/profile');
+        $response = $this->actingAs($user, "api")->get('/api/collection-point');
 
         $response
             ->assertStatus(200)
@@ -48,7 +48,7 @@ class CollectionPointTest extends TestCase
     public function testUpdateCollectionPointName()
     {
         $user = factory(CollectionPointUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/collection-point/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/collection-point', [
           'name' => 'ELM'
         ]);
 
@@ -71,7 +71,7 @@ class CollectionPointTest extends TestCase
     public function testUpdateCollectionPointAddress()
     {
         $user = factory(CollectionPointUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/collection-point/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/collection-point', [
             'address_line_1'    => 'Fake house',
             'address_line_2'    => '123 Fake Street',
             'city'              => 'Fake city',
@@ -98,7 +98,7 @@ class CollectionPointTest extends TestCase
     public function testUpdateCollectionPointMaxDailyCapacity()
     {
         $user = factory(CollectionPointUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/collection-point/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/collection-point', [
           'max_daily_capacity' => 130
         ]);
 
@@ -121,7 +121,7 @@ class CollectionPointTest extends TestCase
     public function testUpdateCollectionPointAll()
     {
         $user = factory(CollectionPointUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/collection-point/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/collection-point', [
             'name'              => 'Fake Collection point',
             'address_line_1'    => 'Fake house',
             'address_line_2'    => '123 Fake Street',

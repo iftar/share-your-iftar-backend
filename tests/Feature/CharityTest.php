@@ -13,7 +13,7 @@ class CharityTest extends TestCase
     public function testGetCharityProfile()
     {
         $user = factory(CharityUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->get('/api/charity/profile');
+        $response = $this->actingAs($user, "api")->get('/api/charity');
 
         $response
             ->assertStatus(200)
@@ -30,7 +30,7 @@ class CharityTest extends TestCase
     public function testUpdateCharityName()
     {
         $user = factory(CharityUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/charity/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/charity', [
           'name' => 'James foundation'
         ]);
 
@@ -49,7 +49,7 @@ class CharityTest extends TestCase
     public function testUpdateCharityRegistrationNumber()
     {
         $user = factory(CharityUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/charity/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/charity', [
           'registration_number' => '1321165464613'
         ]);
 
@@ -68,7 +68,7 @@ class CharityTest extends TestCase
     public function testUpdateCharityMaxDeliveryCapacity()
     {
         $user = factory(CharityUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/charity/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/charity', [
           'max_delivery_capacity' => 132
         ]);
 
@@ -87,7 +87,7 @@ class CharityTest extends TestCase
     public function testUpdateCharityAll()
     {
         $user = factory(CharityUser::class)->create()->user;
-        $response = $this->actingAs($user, "api")->postJson('/api/charity/profile', [
+        $response = $this->actingAs($user, "api")->postJson('/api/charity', [
           'name' => 'James foundation',
           'registration_number' => '1321165464613',
           'max_delivery_capacity' => 132,
