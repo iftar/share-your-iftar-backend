@@ -21,7 +21,7 @@ class OrderService
                              },
                          ])
                          ->whereIn('id', $user->charities->pluck('id'))
-                         ->get();
+                         ->first();
 
         return $result;
     }

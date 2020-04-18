@@ -13,7 +13,7 @@ class OrderController extends Controller
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'charities' => $orderService->get()
+                'charity' => $orderService->get()
             ]
         ]);
     }

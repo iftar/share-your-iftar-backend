@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Models\CollectionPointTimeSlot;
 use App\Models\Order;
 use App\Events\Order\Created;
 use App\Events\Order\Updated;
@@ -24,6 +25,8 @@ class OrderService
     {
         $user = auth()->user();
 
+        $data['required_date'] = now();
+
         $order = $user->orders()->create($data);
 
         event(new Created($order));
@@ -33,6 +36,8 @@ class OrderService
 
     public function update(Order $order, $data)
     {
+        $data['required_date'] = $order->required_date;
+
         $order->update($data);
 
         event(new Updated($order));
@@ -43,6 +48,13 @@ class OrderService
     public function delete(Order $order)
     {
         $order->delete();
+    }
+
+    public function timeSlotBelongsToCollectionPoint($timeSlotId, $collectionPointId)
+    {
+        return CollectionPointTimeSlot::where('id', $timeSlotId)
+                                      ->where('collection_point_id', $collectionPointId)
+                                      ->first();
     }
 
     public function getFillable($collection)

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\API\User;
 
-use App\Http\Requests\API\Request;
+use App\Http\Requests\API\UnauthenticatedRequest;
 
-class RegisterRequest extends Request
+class RegisterRequest extends UnauthenticatedRequest
 {
     public function rules()
     {

@@ -13,6 +13,13 @@ class UserService
         return User::where('email', $email)->first();
     }
 
+    public function emailTaken($email)
+    {
+        return User::where('id', '!=', auth()->user()->id)
+                   ->where('email', $email)
+                   ->first();
+    }
+
     public function get()
     {
         /** @var User $user */
@@ -26,7 +33,7 @@ class UserService
             'last_name'  => $data['last_name'] ?? null,
             'email'      => $data['email'],
             'password'   => bcrypt($data['password']),
-            'type'       => $data['type'] ?? 'user',
+            'type'       => 'user',
             'status'     => 'approved',
         ]);
 
@@ -35,9 +42,15 @@ class UserService
         return $user;
     }
 
-    public function update(User $user, $data)
+    public function update($data)
     {
-        $user->update($data);
+        $user = auth()->user();
+
+        $user->update([
+            'first_name' => $data['first_name'] ?? $user->first_name,
+            'last_name'  => $data['last_name'] ?? $user->first_name,
+            'email'      => $data['email'] ?? $user->email,
+        ]);
 
         event(new Updated($user));
 

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\User;
 
-use App\Models\User;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\User\UpdateRequest;
 use App\Http\Requests\API\User\AuthenticatedRequest;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -20,9 +19,16 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UpdateRequest $request, UserService $userService, User $user)
+    public function update(AuthenticatedRequest $request, UserService $userService)
     {
-        $user = $userService->update($user, $userService->getFillable($request));
+        if ($userService->emailTaken($request->input('email'))) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Email address unavailable'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = $userService->update($userService->getFillable($request));
 
         return response()->json([
             'status' => 'success',
