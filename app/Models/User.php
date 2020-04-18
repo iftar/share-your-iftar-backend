@@ -50,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function charity()
     {
-        return $this->belongsToMany(Charity::class, 'charity_users')->first();
+        return $this->charities->first();
     }
 
     public function charities()
@@ -59,6 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function collectionPoint()
+    {
+        return $this->collectionPoints->first();
+    }
+
+    public function collectionPoints()
     {
         return $this->belongsToMany(CollectionPoint::class, 'collection_point_users');
     }
