@@ -17,4 +17,14 @@ class CollectionPointController extends Controller
             ]
         ]);
     }
+
+    public function show($id, AuthenticatedRequest $request, CollectionPointService $collectionPointService)
+    {
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'collection_point' => $collectionPointService->get($id)
+            ]
+        ]);
+    }
 }

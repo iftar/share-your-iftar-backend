@@ -10,4 +10,9 @@ class CollectionPointService
     {
         return CollectionPoint::with('collectionPointTimeSlots')->paginate(15);
     }
+
+    public function get($id)
+    {
+        return CollectionPoint::find($id);
+    }
 }

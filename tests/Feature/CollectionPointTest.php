@@ -24,6 +24,18 @@ class CollectionPointTest extends TestCase
                 'data'   => [ 'collection_points' => [] ]]);
     }
 
+    public function testGetCollectionPoint()
+    {
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user, "api")->get('/api/collection-points/1');
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data'   => [ 'collection_point' => [] ]]);
+    }
+
     public function testGetCollectionPointProfile()
     {
         $user = factory(CollectionPointUser::class)->create()->user;
