@@ -26,6 +26,20 @@ class OrderController extends Controller
         ]);
     }
 
+    public function today(AuthenticatedRequest $request, OrderService $orderService)
+    {
+        $filters = [
+            'required_date' => today()
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'orders' => $orderService->list($filters)
+            ]
+        ]);
+    }
+
     public function show(ShowRequest $request, Order $order, OrderService $orderService)
     {
         return response()->json([
