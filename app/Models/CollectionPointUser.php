@@ -13,6 +13,11 @@ class CollectionPointUser extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'collection_point_id' => 'integer',
+        'user_id'             => 'integer',
+    ];
+
     public function collectionPoint()
     {
         return $this->belongsTo(CollectionPoint::class);

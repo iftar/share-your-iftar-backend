@@ -13,6 +13,11 @@ class CharityCollectionPoint extends Model
         'collection_point_id',
     ];
 
+    protected $casts = [
+        'charity_id'          => 'integer',
+        'collection_point_id' => 'integer',
+    ];
+
     public function charity()
     {
         return $this->belongsTo(Charity::class);

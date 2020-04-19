@@ -21,6 +21,11 @@ class CollectionPointTimeSlot extends Model
         'type',
     ];
 
+    protected $casts = [
+        'collection_point_id' => 'integer',
+        'max_capacity'        => 'integer',
+    ];
+
     public function collectionPoint()
     {
         return $this->belongsTo(CollectionPoint::class);

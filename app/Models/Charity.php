@@ -14,6 +14,10 @@ class Charity extends Model
         'max_delivery_capacity',
     ];
 
+    protected $casts = [
+        'max_delivery_capacity' => 'integer',
+    ];
+
     public function collectionPoints()
     {
         return $this->belongsToMany(CollectionPoint::class, 'charity_collection_points');

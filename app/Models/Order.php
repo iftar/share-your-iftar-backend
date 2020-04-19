@@ -27,7 +27,11 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'required_date' => 'date',
+        'user_id'                       => 'integer',
+        'required_date'                 => 'date',
+        'quantity'                      => 'integer',
+        'collection_point_id'           => 'integer',
+        'collection_point_time_slot_id' => 'integer',
     ];
 
     public function user()
