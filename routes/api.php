@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Auth
+// Unauthenticated
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
+Route::post('forgot-password', 'PasswordResetController@index');
 
+// Authenticated
 Route::group(['middleware' => ['auth:api']], function () {
 
     // Users API

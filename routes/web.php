@@ -18,6 +18,9 @@ Route::get('/', 'IndexController@index')->name('home');
 
 Route::get('email/verify/{user}/{hash}', 'AuthController@verify')->name('auth.verification.verify');
 
+Route::get('password/reset/{token}', 'PasswordResetController@index')->name('password.reset');
+Route::post('password/reset', 'PasswordResetController@reset')->name('password.update');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('email/verified', 'AuthController@verified')->name('auth.verification.verified');
 });

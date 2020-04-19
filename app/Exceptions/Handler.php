@@ -106,7 +106,7 @@ class Handler extends ExceptionHandler
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        return redirect()->guest('/');
+        return $this->prepareResponse($request, $exception);
     }
 
     protected function accessDenied($request, AccessDeniedHttpException $exception)
@@ -118,7 +118,7 @@ class Handler extends ExceptionHandler
             ], Response::HTTP_FORBIDDEN);
         }
 
-        return redirect()->guest('/');
+        return $this->prepareResponse($request, $exception);
     }
 
     protected function invalidMethod($request, MethodNotAllowedHttpException $exception)
@@ -130,6 +130,6 @@ class Handler extends ExceptionHandler
             ], Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
-        return redirect()->guest('/');
+        return $this->prepareResponse($request, $exception);
     }
 }

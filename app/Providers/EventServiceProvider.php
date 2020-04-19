@@ -8,6 +8,7 @@ use App\Events\Order\Updated as OrderUpdated;
 use App\Events\Charity\Created as CharityCreated;
 use App\Events\Charity\Updated as CharityUpdated;
 use App\Events\User\Registered as UserRegistered;
+use App\Events\User\PasswordReset as UserPasswordReset;
 use App\Listeners\User\SendEmailVerificationNotification;
 use App\Events\CollectionPoint\Created as CollectionPointCreated;
 use App\Events\CollectionPoint\Updated as CollectionPointUpdated;
@@ -25,33 +26,21 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
 
-        UserUpdated::class => [
+        UserPasswordReset::class => [],
 
-        ],
+        UserUpdated::class => [],
 
-        CharityCreated::class => [
+        CharityCreated::class => [],
 
-        ],
+        CharityUpdated::class => [],
 
-        CharityUpdated::class => [
+        CollectionPointCreated::class => [],
 
-        ],
+        CollectionPointUpdated::class => [],
 
-        CollectionPointCreated::class => [
+        OrderCreated::class => [],
 
-        ],
-
-        CollectionPointUpdated::class => [
-
-        ],
-
-        OrderCreated::class => [
-
-        ],
-
-        OrderUpdated::class => [
-
-        ],
+        OrderUpdated::class => [],
     ];
 
     /**
