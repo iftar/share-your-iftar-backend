@@ -16,7 +16,19 @@ class OrderController extends Controller
 {
     public function index(AuthenticatedRequest $request, OrderService $orderService)
     {
-        parse_str($request->getQueryString(), $filters);
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'orders' => $orderService->list($request->all())
+            ]
+        ]);
+    }
+
+    public function today(AuthenticatedRequest $request, OrderService $orderService)
+    {
+        $filters = [
+            'required_date' => today()
+        ];
 
         return response()->json([
             'status' => 'success',
