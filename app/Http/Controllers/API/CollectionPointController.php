@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\CollectionPoint;
 use App\Http\Controllers\Controller;
 use App\Services\User\CollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
@@ -18,12 +19,12 @@ class CollectionPointController extends Controller
         ]);
     }
 
-    public function show($id, AuthenticatedRequest $request, CollectionPointService $collectionPointService)
+    public function show(AuthenticatedRequest $request, CollectionPointService $collectionPointService, CollectionPoint $collectionPoint)
     {
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'collection_point' => $collectionPointService->get($id)
+                'collection_point' => $collectionPointService->get($collectionPoint)
             ]
         ]);
     }

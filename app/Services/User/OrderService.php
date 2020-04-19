@@ -2,11 +2,11 @@
 
 namespace App\Services\User;
 
-use App\Models\CollectionPointTimeSlot;
+use Carbon\Carbon;
 use App\Models\Order;
 use App\Events\Order\Created;
 use App\Events\Order\Updated;
-use Carbon\Carbon;
+use App\Models\CollectionPointTimeSlot;
 
 class OrderService
 {
@@ -19,7 +19,7 @@ class OrderService
     {
         return Order::with(['collectionPoint', 'collectionPointTimeSlot'])
                     ->where('id', $order->id)
-                    ->get();
+                    ->first();
     }
 
     public function create($data)
