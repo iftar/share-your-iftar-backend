@@ -18,7 +18,7 @@ class PasswordResetController extends Controller
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'message' => 'A password reset email has been sent if an account is registered with the given email'
+                'message' => 'Password reset email has been sent if an account exists with the given email'
             ]
         ]);
     }
