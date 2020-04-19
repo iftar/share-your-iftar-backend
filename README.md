@@ -2,7 +2,7 @@
 
 ## Documentation
 
-https://docs.google.com/document/d/1VLw98wvg7Yyq46QgAv5rYjwUJCk4Uwb_dC9OBWCLvaQ/edit#heading=h.cfi0qvphrdn8
+https://docs.google.com/document/d/1VLw98wvg7Yyq46QgAv5rYjwUJCk4Uwb_dC9OBWCLvaQ/view
 
 ## About the project
 
