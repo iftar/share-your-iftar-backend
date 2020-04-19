@@ -6,6 +6,7 @@ use App\Models\CollectionPointTimeSlot;
 use App\Models\Order;
 use App\Events\Order\Created;
 use App\Events\Order\Updated;
+use Carbon\Carbon;
 
 class OrderService
 {
@@ -62,5 +63,32 @@ class OrderService
         return $collection->only(
             with((new Order())->getFillable())
         );
+    }
+
+    public function canOrder()
+    {
+        $result = [
+            'user_can_order'            => false,
+            'user_has_ordered_today'    => true,
+            'time_passed_daily_deadline'=> true,            
+        ];
+
+        // check if user has already ordered today
+        $user = auth()->user();
+        $todaysOrderCount = $user->orders()
+            ->whereDate('created_at', Carbon::today())
+            ->count();
+        $result['user_has_ordered_today'] = $todaysOrderCount > 0;
+
+        // check if between 12am and 2pm
+        $now = Carbon::now();
+        $start = Carbon::createFromTimeString('00:00');
+        $end = Carbon::createFromTimeString('14:00');
+        $result['time_passed_daily_deadline'] = !$now->between($start, $end);
+
+        // update can order status
+        $result['user_can_order'] = !$result['user_has_ordered_today'] && !$now->between($start, $end);
+
+        return $result;
     }
 }

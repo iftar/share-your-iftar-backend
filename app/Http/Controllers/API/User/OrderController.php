@@ -77,4 +77,14 @@ class OrderController extends Controller
             'data'   => []
         ]);
     }
+
+    public function check(AuthenticatedRequest $request, OrderService $orderService)
+    {
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'check' => $orderService->canOrder(),
+            ]
+        ]);
+    }
 }
