@@ -13,6 +13,11 @@ class BatchOrder extends Model
         'order_id',
     ];
 
+    protected $casts = [
+        'batch_id' => 'integer',
+        'order_id' => 'date',
+    ];
+
     public function batch()
     {
         return $this->belongsTo(Batch::class);

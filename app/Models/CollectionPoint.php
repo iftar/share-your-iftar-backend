@@ -18,6 +18,10 @@ class CollectionPoint extends Model
         'max_daily_capacity',
     ];
 
+    protected $casts = [
+        'max_daily_capacity' => 'integer',
+    ];
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'collection_point_users');

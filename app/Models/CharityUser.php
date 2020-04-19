@@ -13,6 +13,11 @@ class CharityUser extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'charity_id' => 'integer',
+        'user_id'    => 'integer',
+    ];
+
     public function charity()
     {
         return $this->belongsTo(Charity::class);
