@@ -16,10 +16,12 @@ class OrderController extends Controller
 {
     public function index(AuthenticatedRequest $request, OrderService $orderService)
     {
+        parse_str($request->getQueryString(), $filters);
+
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'orders' => $orderService->list()
+                'orders' => $orderService->list($filters)
             ]
         ]);
     }

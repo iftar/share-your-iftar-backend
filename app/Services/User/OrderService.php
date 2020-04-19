@@ -10,14 +10,20 @@ use App\Models\CollectionPointTimeSlot;
 
 class OrderService
 {
-    public function list()
+    public function list($filters)
     {
-        return auth()->user()->orders()->get();
+        return Order::with(['collectionPoint', 'collectionPointTimeSlot'])
+                    ->where('user_id', auth()->user()->id)
+                    ->when(array_key_exists('required_date', $filters), function ($query) use ($filters) {
+                        $query->whereDate('required_date', $filters['required_date']);
+                    })
+                    ->get();
     }
 
     public function get(Order $order)
     {
         return Order::with(['collectionPoint', 'collectionPointTimeSlot'])
+                    ->where('user_id', auth()->user()->id)
                     ->where('id', $order->id)
                     ->first();
     }
@@ -68,26 +74,29 @@ class OrderService
     public function canOrder()
     {
         $result = [
-            'user_can_order'            => false,
-            'user_has_ordered_today'    => true,
-            'time_passed_daily_deadline'=> true,            
+            'user_can_order'             => false,
+            'user_has_ordered_today'     => true,
+            'time_passed_daily_deadline' => true,
         ];
 
-        // check if user has already ordered today
         $user = auth()->user();
+
+        // check if user has already ordered today
         $todaysOrderCount = $user->orders()
-            ->whereDate('created_at', Carbon::today())
-            ->count();
+                                 ->whereDate('created_at', Carbon::today())
+                                 ->count();
+
         $result['user_has_ordered_today'] = $todaysOrderCount > 0;
 
         // check if between 12am and 2pm
-        $now = Carbon::now();
+        $now   = Carbon::now();
         $start = Carbon::createFromTimeString('00:00');
-        $end = Carbon::createFromTimeString('14:00');
-        $result['time_passed_daily_deadline'] = !$now->between($start, $end);
+        $end   = Carbon::createFromTimeString('14:00');
+
+        $result['time_passed_daily_deadline'] = ! $now->between($start, $end);
 
         // update can order status
-        $result['user_can_order'] = !$result['user_has_ordered_today'] && !$now->between($start, $end);
+        $result['user_can_order'] = ! $result['user_has_ordered_today'] && ! $now->between($start, $end);
 
         return $result;
     }
