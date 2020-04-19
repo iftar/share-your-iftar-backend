@@ -77,6 +77,7 @@ class OrderService
             'user_can_order'             => false,
             'user_has_ordered_today'     => true,
             'time_passed_daily_deadline' => true,
+            'messages' => [],
         ];
 
         $user = auth()->user();
@@ -86,17 +87,19 @@ class OrderService
                                  ->whereDate('created_at', Carbon::today())
                                  ->count();
 
-        $result['user_has_ordered_today'] = $todaysOrderCount > 0;
+        if ( $todaysOrderCount == 0 ) $result['user_has_ordered_today'] = false;
+        else $result['messages'][] = "User has already ordered today.";
 
         // check if between 12am and 2pm
-        $now   = Carbon::now();
-        $start = Carbon::createFromTimeString('00:00');
-        $end   = Carbon::createFromTimeString('14:00');
+        $now   = Carbon::now('Europe/London');
+        $start = Carbon::createFromTimeString('00:00', 'Europe/London');
+        $end   = Carbon::createFromTimeString('14:00', 'Europe/London');
 
-        $result['time_passed_daily_deadline'] = ! $now->between($start, $end);
+        if ( $now->between($start, $end) ) $result['time_passed_daily_deadline'] = false;
+        else $result['messages'][] = "Today's deadline time has passed.";
 
         // update can order status
-        $result['user_can_order'] = ! $result['user_has_ordered_today'] && ! $now->between($start, $end);
+        $result['user_can_order'] = ! $result['user_has_ordered_today'] && ! $result['time_passed_daily_deadline'];
 
         return $result;
     }
