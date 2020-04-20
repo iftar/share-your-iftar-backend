@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Services\UserService;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Response;
 use App\Services\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\User\LoginRequest;
 use App\Http\Requests\API\User\RegisterRequest;
-use App\Http\Requests\API\UnauthenticatedRequest;
+use App\Http\Requests\API\User\AuthenticatedRequest;
 
 class AuthController extends Controller
 {
@@ -62,7 +62,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(UnauthenticatedRequest $request, AuthService $authService)
+    public function logout(AuthenticatedRequest $request, AuthService $authService)
     {
         /** @var User $user */
         $user = auth()->user();
