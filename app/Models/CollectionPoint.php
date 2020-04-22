@@ -31,6 +31,8 @@ class CollectionPoint extends Model
     protected $appends = [
         'available_capacity',
         'accepting_orders',
+        'accepting_collections',
+        'accepting_deliveries',
     ];
 
     public function users()
@@ -61,5 +63,15 @@ class CollectionPoint extends Model
     public function getAcceptingOrdersAttribute()
     {
         return $this->available_capacity > 0;
+    }
+
+    public function getAcceptingCollectionsAttribute()
+    {
+        return $this->collectionPointTimeSlots->where('type', 'user_pickup')->count() > 0;
+    }
+
+    public function getAcceptingDeliveriesAttribute()
+    {
+        return $this->collectionPointTimeSlots->where('type', 'charity_pickup')->count() > 0;
     }
 }
