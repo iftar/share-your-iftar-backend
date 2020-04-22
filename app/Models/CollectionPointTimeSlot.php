@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class CollectionPointTimeSlot extends Model
@@ -21,9 +22,19 @@ class CollectionPointTimeSlot extends Model
         'type',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     protected $casts = [
         'collection_point_id' => 'integer',
         'max_capacity'        => 'integer',
+    ];
+
+    protected $appends = [
+        'available_capacity',
+        'accepting_orders',
     ];
 
     public function collectionPoint()
@@ -34,5 +45,15 @@ class CollectionPointTimeSlot extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function getAvailableCapacityAttribute()
+    {
+        return $this->max_capacity - $this->orders()->whereDate('created_at', Carbon::today())->count();
+    }
+
+    public function getAcceptingOrdersAttribute()
+    {
+        return $this->available_capacity > 0;
     }
 }
