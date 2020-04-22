@@ -19,6 +19,8 @@ https://docs.google.com/presentation/d/e/2PACX-1vS0bv3ICWNIU2epGje3SOO3GMEh8iphT
 - Allow people to donate meals.
 - Allow those who want a meal to pick up or have meals delivered.
 
+(@TODO: This needs to be reviewed)
+
 ## About this repo
 
 This is the Backend API microservice for the Share your Iftar Project.
