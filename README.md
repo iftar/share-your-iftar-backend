@@ -12,7 +12,7 @@ Share the Iftar allows the community to share their iftar meal with others. Ifta
 
 ### Presentation
 
-https://docs.google.com/presentation/d/e/2PACX-1vS0bv3ICWNIU2epGje3SOO3GMEh8iphTjc9RlUlmqhOwXckGptDU3sOI5v77rTvGcU74BYAkTBSTLgh/pub?start=false&loop=false&delayms=3000
+https://docs.google.com/presentation/d/e/2PACX-1vS0bv3ICWNIU2epGje3SOO3GMEh8iphTjc9RlUlmqhOwXckGptDU3sOI5v77rTvGcU74BYAkTBSTLgh/pub
 
 ### GOALS
 
