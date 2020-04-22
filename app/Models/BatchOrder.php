@@ -15,7 +15,7 @@ class BatchOrder extends Model
 
     protected $casts = [
         'batch_id' => 'integer',
-        'order_id' => 'date',
+        'order_id' => 'integer',
     ];
 
     public function batch()
