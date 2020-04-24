@@ -22,15 +22,18 @@ class Created
      */
     public $batch;
 
+    public $collectionPointTimeSlots;
+
     /**
      * Create a new event instance.
      *
      * @param CollectionPoint $collectionPoint
      * @param Batch           $batch
      */
-    public function __construct(CollectionPoint $collectionPoint, Batch $batch)
+    public function __construct(CollectionPoint $collectionPoint, Batch $batch, $collectionPointTimeSlots)
     {
-        $this->collectionPoint = $collectionPoint;
-        $this->batch           = $batch;
+        $this->collectionPoint          = $collectionPoint;
+        $this->batch                    = $batch;
+        $this->collectionPointTimeSlots = $collectionPointTimeSlots;
     }
 }

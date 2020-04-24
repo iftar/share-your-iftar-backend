@@ -21,7 +21,7 @@ class SendCollectionPointBatchNotification implements ShouldQueue
     public function handle(CollectionPointBatchCreated $event)
     {
         foreach ($event->collectionPoint->collectionPointUsers as $collectionPointUser) {
-            $collectionPointUser->user->notify(new OrdersToday($event->batch, $event->collectionPoint));
+            $collectionPointUser->user->notify(new OrdersToday($event->batch, $event->collectionPoint, $event->collectionPointTimeSlots));
         }
     }
 }

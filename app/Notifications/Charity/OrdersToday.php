@@ -15,16 +15,18 @@ class OrdersToday extends Notification
 
     protected $batch;
     protected $charity;
+    protected $collectionPoints;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Batch $batch, Charity $charity)
+    public function __construct(Batch $batch, Charity $charity, $collectionPoints)
     {
-        $this->batch   = $batch;
-        $this->charity = $charity;
+        $this->batch            = $batch;
+        $this->charity          = $charity;
+        $this->collectionPoints = $collectionPoints;
     }
 
     /**
@@ -48,14 +50,23 @@ class OrdersToday extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $message = (new MailMessage)
             ->subject('Orders To Deliver - ' . $this->batch->created_at->format('jS F Y'))
             ->greeting('Hi, ' . $notifiable->full_name)
             ->line('You have ' . $this->batch->batchOrders->count() . ' orders to deliver today.')
-            ->line('Please find a CSV attached with a list of orders and meals per order.')
-            ->line(new HtmlString('If you have any issues please reply to this email or email us at <a href="mailto:shareiftar@gmail.com">shareiftar@gmail.com</a>'))
-            ->salutation(new HtmlString('Kind Regards,<br>Share Iftar Team'))
-            ->attach($this->batch->csv);
+            ->line('Orders for delivery:');
+
+        foreach ($this->collectionPoints as $collectionPoint) {
+            $orders = $collectionPoint->orders->count() == 1 ? 'order' : 'orders';
+            $message->line($collectionPoint->name . ' - ' . $collectionPoint->orders->count() . ' ' . $orders);
+        }
+
+        $message->line('Please find a CSV attached with a list of orders and meals per order.')
+                ->line(new HtmlString('If you have any issues please reply to this email or email us at <a href="mailto:shareiftar@gmail.com">shareiftar@gmail.com</a>'))
+                ->salutation(new HtmlString('Kind Regards,<br>Share Iftar Team'))
+                ->attach($this->batch->csv);
+
+        return $message;
     }
 
     /**

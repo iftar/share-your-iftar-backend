@@ -21,7 +21,7 @@ class SendCharityBatchNotification implements ShouldQueue
     public function handle(CharityBatchCreated $event)
     {
         foreach ($event->charity->charityUsers as $charityUser) {
-            $charityUser->user->notify(new OrdersToday($event->batch, $event->charity));
+            $charityUser->user->notify(new OrdersToday($event->batch, $event->charity, $event->collectionPoints));
         }
     }
 }

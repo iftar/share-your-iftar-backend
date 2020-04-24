@@ -22,15 +22,18 @@ class Created
      */
     public $batch;
 
+    public $collectionPoints;
+
     /**
      * Create a new event instance.
      *
      * @param Charity $charity
      * @param Batch   $batch
      */
-    public function __construct(Charity $charity, Batch $batch)
+    public function __construct(Charity $charity, Batch $batch, $collectionPoints)
     {
-        $this->charity = $charity;
-        $this->batch   = $batch;
+        $this->charity          = $charity;
+        $this->batch            = $batch;
+        $this->collectionPoints = $collectionPoints;
     }
 }

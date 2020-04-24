@@ -64,7 +64,7 @@ class DeliveryOrdersForCharities extends Command
 
             $this->batchService->generateCsv($batch);
 
-            event(new CharityBatchCreated($charity, $batch));
+            event(new CharityBatchCreated($charity, $batch, $collectionPoints));
         }
     }
 }

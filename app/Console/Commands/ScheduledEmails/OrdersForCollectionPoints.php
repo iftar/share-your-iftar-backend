@@ -64,7 +64,7 @@ class OrdersForCollectionPoints extends Command
 
             $this->batchService->generateCsv($batch);
 
-            event(new CollectionPointBatchCreated($collectionPoint, $batch));
+            event(new CollectionPointBatchCreated($collectionPoint, $batch, $collectionPointTimeSlots));
         }
     }
 }
