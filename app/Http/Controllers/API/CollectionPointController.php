@@ -19,6 +19,27 @@ class CollectionPointController extends Controller
         ]);
     }
 
+    public function indexNearMe(AuthenticatedRequest $request, CollectionPointService $collectionPointService)
+    {
+        $userLat = $request->get('lat');
+        $userLong = $request->get('long');
+
+        if( !$userLat || !$userLong )
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'lat and long paramaters are required.',
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'collection_points' => $collectionPointService->listNearLatLong($userLat, $userLong)
+            ]
+        ]);
+    }
+
     public function show(AuthenticatedRequest $request, CollectionPointService $collectionPointService, CollectionPoint $collectionPoint)
     {
         return response()->json([
