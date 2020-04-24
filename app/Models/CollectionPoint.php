@@ -40,6 +40,11 @@ class CollectionPoint extends Model
         return $this->belongsToMany(User::class, 'collection_point_users');
     }
 
+    public function collectionPointUsers()
+    {
+        return $this->hasMany(CollectionPointUser::class);
+    }
+
     public function charity()
     {
         return $this->belongsToMany(Charity::class, 'charity_collection_points');
@@ -53,6 +58,11 @@ class CollectionPoint extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
     }
 
     public function getAvailableCapacityAttribute()

@@ -23,8 +23,13 @@ class Charity extends Model
         return $this->belongsToMany(CollectionPoint::class, 'charity_collection_points');
     }
 
-    public function users()
+    public function charityUsers()
     {
-        return $this->belongsToMany(User::class, 'charity_users');
+        return $this->hasMany(CharityUser::class);
+    }
+
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
     }
 }

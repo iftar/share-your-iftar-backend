@@ -13,18 +13,28 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\ScheduledEmails\OrdersForCollectionPoints::class,
+        Commands\ScheduledEmails\DeliveryOrdersForCharities::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     *
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $timezone = 'Europe/London';
+
+        $schedule->command('orders:collection-points')
+                 ->dailyAt('14:00')
+                 ->timezone($timezone);
+
+        $schedule->command('orders:charities')
+                 ->dailyAt('14:00')
+                 ->timezone($timezone);
     }
 
     /**
@@ -34,7 +44,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -19,7 +19,9 @@
         "laravel/passport": "^8.4",
         "laravel/telescope": "^3.2",
         "laravel/tinker": "^2.0",
-        "sentry/sentry-laravel": "1.7.0"
+        "league/csv": "^9.6",
+        "sentry/sentry-laravel": "1.7.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
