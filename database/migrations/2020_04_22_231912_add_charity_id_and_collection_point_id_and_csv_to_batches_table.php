@@ -16,7 +16,6 @@ class AddCharityIdAndCollectionPointIdAndCsvToBatchesTable extends Migration
         Schema::table('batches', function (Blueprint $table) {
             $table->unsignedInteger('collection_point_id')->nullable()->after('id');
             $table->unsignedInteger('charity_id')->nullable()->after('collection_point_id');
-            $table->string('csv')->nullable()->after('charity_id');
         });
     }
 
@@ -28,9 +27,7 @@ class AddCharityIdAndCollectionPointIdAndCsvToBatchesTable extends Migration
     public function down()
     {
         Schema::table('batches', function (Blueprint $table) {
-            $table->dropColumn('collection_point_id');
-            $table->dropColumn('charity_id');
-            $table->dropColumn('csv');
+            $table->dropColumn(['collection_point_id', 'charity_id']);
         });
     }
 }

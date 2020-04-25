@@ -6,7 +6,7 @@ use App\Models\CollectionPoint;
 use Illuminate\Console\Command;
 use App\Services\CollectionPoint\BatchService;
 use App\Services\CollectionPoint\OrderService;
-use App\Events\CollectionPoint\Batch\Created as CollectionPointBatchCreated;
+use App\Notifications\CollectionPoint\OrdersToday;
 
 class OrdersForCollectionPoints extends Command
 {
@@ -62,9 +62,11 @@ class OrdersForCollectionPoints extends Command
 
             $batch = $this->batchService->createBatchWithOrders($collectionPoint, $orders);
 
-            $this->batchService->generateCsv($batch);
+            $csv = $this->batchService->generateCsv($batch);
 
-            event(new CollectionPointBatchCreated($collectionPoint, $batch, $collectionPointTimeSlots));
+            foreach ($collectionPoint->collectionPointUsers as $collectionPointUser) {
+                $collectionPointUser->user->notify(new OrdersToday($batch, $collectionPoint, $csv));
+            }
         }
     }
 }

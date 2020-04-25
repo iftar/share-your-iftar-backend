@@ -6,7 +6,7 @@ use App\Models\Charity;
 use Illuminate\Console\Command;
 use App\Services\Charity\BatchService;
 use App\Services\Charity\OrderService;
-use App\Events\Charity\Batch\Created as CharityBatchCreated;
+use App\Notifications\Charity\OrdersToday;
 
 class DeliveryOrdersForCharities extends Command
 {
@@ -62,9 +62,11 @@ class DeliveryOrdersForCharities extends Command
 
             $batch = $this->batchService->createBatchWithOrders($charity, $orders);
 
-            $this->batchService->generateCsv($batch);
+            $csv = $this->batchService->generateCsv($batch);
 
-            event(new CharityBatchCreated($charity, $batch, $collectionPoints));
+            foreach ($charity->charityUsers as $charityUser) {
+                $charityUser->user->notify(new OrdersToday($batch, $charity, $csv));
+            }
         }
     }
 }

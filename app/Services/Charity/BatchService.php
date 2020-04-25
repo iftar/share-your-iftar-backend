@@ -4,11 +4,11 @@ namespace App\Services\Charity;
 
 use App\Models\Batch;
 use App\Models\Order;
+use SplTempFileObject;
 use League\Csv\Writer;
 use App\Models\Charity;
 use App\Models\BatchOrder;
 use League\Csv\CannotInsertRecord;
-use Illuminate\Support\Facades\File;
 
 class BatchService
 {
@@ -40,10 +40,7 @@ class BatchService
 
     public function generateCsv(Batch $batch)
     {
-        $csvDirPath = $this->getOrCreateCsvDirectory(storage_path("app/csv/charity/" . $batch->charity->id));
-        $csvPath    = $csvDirPath . "/" . now()->format('Y-m-d') . "_batch_" . $batch->id . ".csv";
-
-        $csv = Writer::createFromPath($csvPath, 'w+');
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
 
         $this->insertCsvHeader($csv);
 
@@ -86,18 +83,7 @@ class BatchService
             }
         }
 
-        $batch->update([
-            'csv' => $csvPath
-        ]);
-    }
-
-    public function getOrCreateCsvDirectory($dirPath)
-    {
-        if ( ! File::isDirectory($dirPath)) {
-            File::makeDirectory($dirPath, 0777, true, true);
-        }
-
-        return $dirPath;
+        return $csv;
     }
 
     public function insertCsvHeader(Writer $csv)

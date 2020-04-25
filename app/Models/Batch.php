@@ -10,8 +10,7 @@ class Batch extends Model
 
     protected $fillable = [
         'collection_point_id',
-        'charity_id',
-        'csv'
+        'charity_id'
     ];
 
     public function batchOrders()

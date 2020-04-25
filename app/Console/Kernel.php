@@ -29,11 +29,11 @@ class Kernel extends ConsoleKernel
         $timezone = 'Europe/London';
 
         $schedule->command('orders:collection-points')
-                 ->dailyAt('14:00')
+                 ->dailyAt('14:05')
                  ->timezone($timezone);
 
         $schedule->command('orders:charities')
-                 ->dailyAt('14:00')
+                 ->dailyAt('14:05')
                  ->timezone($timezone);
     }
 

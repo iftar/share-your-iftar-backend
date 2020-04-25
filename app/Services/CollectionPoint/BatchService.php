@@ -3,9 +3,9 @@
 namespace App\Services\CollectionPoint;
 
 use App\Models\Batch;
-use App\Models\CharityUser;
 use App\Models\Order;
 use League\Csv\Writer;
+use SplTempFileObject;
 use App\Models\BatchOrder;
 use App\Models\CollectionPoint;
 use League\Csv\CannotInsertRecord;
@@ -41,10 +41,7 @@ class BatchService
 
     public function generateCsv(Batch $batch)
     {
-        $csvDirPath = $this->getOrCreateCsvDirectory(storage_path("app/csv/collection-point/" . $batch->collectionPoint->id));
-        $csvPath    = $csvDirPath . "/" . now()->format('Y-m-d') . "_batch_" . $batch->id . ".csv";
-
-        $csv = Writer::createFromPath($csvPath, 'w+');
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
 
         $this->insertCsvHeader($csv);
 
@@ -53,38 +50,24 @@ class BatchService
                           ->where('id', $batchOrder->order->id)
                           ->first();
 
-            $pickupUserName = $order->collectionPointTimeSlot->type == 'user_pickup'
-                ? $order
-                : $order->collectionPoint->charity->first()->charityUsers->first()->user;
-
             try {
                 $csv->insertOne([
                     $order->id,
-                    $order->collectionPointTimeSlot->type,
                     $order->required_date->format('d/m/Y'),
+                    $order->collectionPointTimeSlot->start_time . ' - ' . $order->collectionPointTimeSlot->end_time,
                     $order->quantity,
                     $order->notes,
-                    $order->collectionPointTimeSlot->start_time . ' - ' . $order->collectionPointTimeSlot->end_time,
-                    $pickupUserName->first_name,
-                    $pickupUserName->last_name,
+                    $order->collectionPointTimeSlot->type,
+                    $order->collectionPointTimeSlot->type == 'charity_pickup' ? $order->collectionPoint->charity->first()->name : '',
+                    $order->collectionPointTimeSlot->type == 'user_pickup' ? $order->first_name : '',
+                    $order->collectionPointTimeSlot->type == 'user_pickup' ? $order->last_name : '',
                 ]);
             } catch (CannotInsertRecord $e) {
                 continue;
             }
         }
 
-        $batch->update([
-            'csv' => $csvPath
-        ]);
-    }
-
-    public function getOrCreateCsvDirectory($dirPath)
-    {
-        if ( ! File::isDirectory($dirPath)) {
-            File::makeDirectory($dirPath, 0777, true, true);
-        }
-
-        return $dirPath;
+        return $csv;
     }
 
     public function insertCsvHeader(Writer $csv)
@@ -92,11 +75,12 @@ class BatchService
         try {
             $csv->insertOne([
                 'Order ID',
-                'Order Type',
                 'Order Required Date',
+                'Pickup Time Slot',
                 'Order Quantity',
                 'Order Notes',
-                'Pickup Time Slot',
+                'Order Type',
+                'Pickup Charity Name',
                 'Pickup User First Name',
                 'Pickup User Last Name',
             ]);
