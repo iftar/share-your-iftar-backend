@@ -28,7 +28,7 @@ sudo add-apt-repository ppa:ondrej/php
 sudo apt update
 sudo apt upgrade -y
 dpkg -l | grep php | tee packages.txt
-sudo apt install php7.4 php7.4-common php7.4-cli php7.4-fpm php7.4-xml php7.4-mbstring php7.4-curl php7.4-mysql php7.4-json php-json-schema php-cli-prompt php7.4-common php-composer-semver php-composer-semver php-composer-spdx-licenses php-symfony-console php-symfony-filesystem php-symfony-finder php-symfony-process -y
+sudo apt install php7.4 php7.4-common php7.4-cli php7.4-fpm php7.4-xml php7.4-mbstring php7.4-curl php7.4-pgsql php7.4-json php-json-schema php-cli-prompt php7.4-common php-composer-semver php-composer-semver php-composer-spdx-licenses php-symfony-console php-symfony-filesystem php-symfony-finder php-symfony-process -y
 sudo apt install zip unzip php7.4-zip -y 
 sudo apt install php-bcmath -y
 sudo apt install php-gd -y
