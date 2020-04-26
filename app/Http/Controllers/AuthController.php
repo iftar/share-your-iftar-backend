@@ -31,6 +31,6 @@ class AuthController extends Controller
 
     public function verified()
     {
-        return view('auth.user.verified');
+        return redirect()->away( config('app.frontend_url') . "/login?state=email_verified" );
     }
 }
