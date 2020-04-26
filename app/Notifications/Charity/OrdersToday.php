@@ -57,7 +57,7 @@ class OrdersToday extends Notification
         $message = (new MailMessage)
             ->subject('Orders To Deliver - ' . $this->batch->created_at->format('jS F Y'))
             ->greeting('Hi, ' . $notifiable->full_name)
-            ->line('You have ' . $orders . ' to deliver today.')
+            ->line('You have ' . $orders . ' ' . $this->getTotalMeals() . ' to deliver today.')
             ->line('Orders for delivery:');
 
         $this->addCollectionPointsSummary($message);
@@ -89,6 +89,19 @@ class OrdersToday extends Notification
         return now()->format('Y-m-d') . "_charity_" . $this->batch->charity->id . "_batch_" . $this->batch->id . ".csv";
     }
 
+    protected function getTotalMeals()
+    {
+        $numOfMeals = 0;
+
+        foreach ($this->batch->batchOrders as $batchOrder) {
+            $numOfMeals += $batchOrder->order->quantity;
+        }
+
+        return $numOfMeals == 1
+            ? '(' . $numOfMeals . ' meal)'
+            : '(' . $numOfMeals . ' meals)';
+    }
+
     protected function addCollectionPointsSummary(MailMessage $message)
     {
         $collectionPoints = [];
@@ -99,7 +112,8 @@ class OrdersToday extends Notification
             if (array_key_exists($key, $collectionPoints)) {
 
                 $collectionPoints[$key] = [
-                    'orders' => (int) $collectionPoints[$key]['orders'] + 1
+                    'orders' => (int) $collectionPoints[$key]['orders'] + 1,
+                    'meals'  => (int) $collectionPoints[$key]['meals'] + $batchOrder->order->quantity,
                 ];
 
                 continue;
@@ -107,6 +121,7 @@ class OrdersToday extends Notification
 
             $collectionPoints[$key] = [
                 'orders'    => 1,
+                'meals'     => $batchOrder->order->quantity,
                 'name'      => $batchOrder->order->collectionPoint->name,
                 'time_slot' => $batchOrder->order->collectionPointTimeslot->start_time . '-' . $batchOrder->order->collectionPointTimeslot->end_time
             ];
@@ -117,7 +132,11 @@ class OrdersToday extends Notification
                 ? $collectionPoint['orders'] . ' order'
                 : $collectionPoint['orders'] . ' orders';
 
-            $message->line($collectionPoint['name'] . ' - ' . $collectionPoint['time_slot'] . ' - ' . $orders);
+            $meals = $collectionPoint['meals'] == 1
+                ? '(' . $collectionPoint['meals'] . ' meal)'
+                : '(' . $collectionPoint['meals'] . ' meals)';
+
+            $message->line($collectionPoint['name'] . ' - ' . $collectionPoint['time_slot'] . ' - ' . $orders . ' ' . $meals);
         }
     }
 }

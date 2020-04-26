@@ -50,14 +50,10 @@ class OrdersToday extends Notification
      */
     public function toMail($notifiable)
     {
-        $orders = $this->batch->batchOrders->count() == 1
-            ? $this->batch->batchOrders->count() . ' order'
-            : $this->batch->batchOrders->count() . ' orders';
-
         $message = (new MailMessage)
-            ->subject('Orders To Fulfil - ' . $this->batch->created_at->format('jS F Y'))
+            ->subject('Meals To Prepare - ' . $this->batch->created_at->format('jS F Y'))
             ->greeting('Hi, ' . $notifiable->full_name)
-            ->line('You have ' . $orders . ' to fulfil today.');
+            ->line('You have ' . $this->getTotalMeals() . ' to prepare today.');
 
         $this->addCollectionPointTimeSlotsSummary($message);
 
@@ -88,6 +84,19 @@ class OrdersToday extends Notification
         return now()->format('Y-m-d') . "_collection-point_" . $this->batch->collectionPoint->id . "_batch_" . $this->batch->id . ".csv";
     }
 
+    protected function getTotalMeals()
+    {
+        $numOfMeals = 0;
+
+        foreach ($this->batch->batchOrders as $batchOrder) {
+            $numOfMeals += $batchOrder->order->quantity;
+        }
+
+        return $numOfMeals == 1
+            ? '(' . $numOfMeals . ' meal)'
+            : '(' . $numOfMeals . ' meals)';
+    }
+
     protected function addCollectionPointTimeSlotsSummary(MailMessage $message)
     {
         $collectionPointTimeSlots = [
@@ -101,35 +110,35 @@ class OrdersToday extends Notification
 
             if (array_key_exists($key, $collectionPointTimeSlots[$type])) {
 
-                $collectionPointTimeSlots[$type][$key] = (int) $collectionPointTimeSlots[$type][$key] + 1;
+                $collectionPointTimeSlots[$type][$key] = (int) $collectionPointTimeSlots[$type][$key] + $batchOrder->order->quantity;
                 continue;
             }
 
-            $collectionPointTimeSlots[$type][$key] = 1;
+            $collectionPointTimeSlots[$type][$key] = $batchOrder->order->quantity;
         }
 
         if (count($collectionPointTimeSlots['user_pickup']) > 0) {
-            $message->line('Orders for pickup:');
+            $message->line('Meals for pickup:');
         }
 
-        foreach ($collectionPointTimeSlots['user_pickup'] as $collectionPointTimeSlot => $numberOfOrders) {
-            $orders = $numberOfOrders == 1
-                ? $numberOfOrders . ' order'
-                : $numberOfOrders . ' orders';
+        foreach ($collectionPointTimeSlots['user_pickup'] as $collectionPointTimeSlot => $numberOfMeals) {
+            $meals = $numberOfMeals == 1
+                ? $numberOfMeals . ' meal'
+                : $numberOfMeals . ' meals';
 
-            $message->line($collectionPointTimeSlot . ' - ' . $orders);
+            $message->line($collectionPointTimeSlot . ' - ' . $meals);
         }
 
         if (count($collectionPointTimeSlots['charity_pickup']) > 0) {
-            $message->line('Orders for delivery (picked up by charity):');
+            $message->line('Meals for delivery (picked up by charity):');
         }
 
-        foreach ($collectionPointTimeSlots['charity_pickup'] as $collectionPointTimeSlot => $numberOfOrders) {
-            $orders = $numberOfOrders == 1
-                ? $numberOfOrders . ' order'
-                : $numberOfOrders . ' orders';
+        foreach ($collectionPointTimeSlots['charity_pickup'] as $collectionPointTimeSlot => $numberOfMeals) {
+            $meals = $numberOfMeals == 1
+                ? $numberOfMeals . ' meal'
+                : $numberOfMeals . ' meals';
 
-            $message->line($collectionPointTimeSlot . ' - ' . $orders);
+            $message->line($collectionPointTimeSlot . ' - ' . $meals);
         }
     }
 }
