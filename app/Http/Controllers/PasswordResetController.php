@@ -34,6 +34,6 @@ class PasswordResetController extends Controller
 
         $authService->revokeAllTokens($user);
 
-        return view('auth.password.success');
+        return redirect()->away( config('app.frontend_url') . "/login?state=password_reset_successfully" );
     }
 }
