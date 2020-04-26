@@ -20,7 +20,7 @@ class CollectionPointService
 
     public function listNearLatLong($userLat, $userLong)
     {
-        $radius = 10;
+        $radius = config('shareiftar.radius');
         $nearestPoints = [];
         $collectionPoints = CollectionPoint::all();
 
