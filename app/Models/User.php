@@ -68,6 +68,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(CollectionPoint::class, 'collection_point_users');
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
