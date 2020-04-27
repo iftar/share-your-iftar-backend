@@ -60,13 +60,13 @@ class OrderController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        /* $canOrder = $orderService->canOrder();
+        $canOrder = $orderService->canOrder();
         if ( ! $canOrder['user_can_order'] ) {
             return response()->json([
                 'status'  => 'error',
                 'message' => $canOrder["messages"],
             ], Response::HTTP_BAD_REQUEST);
-        } */
+        }
 
         $order = $orderService->create($orderService->getFillable($request));
 
