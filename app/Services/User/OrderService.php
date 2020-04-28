@@ -95,7 +95,7 @@ class OrderService
         $start = Carbon::createFromTimeString('00:00', 'Europe/London');
         $end   = Carbon::createFromTimeString('14:00', 'Europe/London');
 
-        if ( $now->between($start, $end) ) $result['time_passed_daily_deadline'] = false;
+        if ( $now->between($start, $end) || !config('shareiftar.enable_timeout') ) $result['time_passed_daily_deadline'] = false;
         else $result['messages'][] = "Today's deadline time has passed.";
 
         // update can order status
