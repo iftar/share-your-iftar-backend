@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\User\LoginRequest;
 use App\Http\Requests\API\User\RegisterRequest;
 use App\Http\Requests\API\User\AuthenticatedRequest;
+use App\Http\Requests\API\User\ResendVerifyEmailRequest;
 
 class AuthController extends Controller
 {
@@ -71,6 +72,23 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'success'
+        ]);
+    }
+
+    public function resendVerifyEmail(ResendVerifyEmailRequest $request, UserService $userService)
+    {
+        /** @var User $user */
+        $user = $userService->exists($request->input('email'));
+
+        if ($user && ! $user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'message' => 'Verification email sent if user exists'
+            ]
         ]);
     }
 }
