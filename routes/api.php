@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 Route::post('forgot-password', 'PasswordResetController@index');
+Route::post('resend-verify-email', 'AuthController@resendVerifyEmail');
 
 // Authenticated
 Route::group(['middleware' => ['auth:api']], function () {
