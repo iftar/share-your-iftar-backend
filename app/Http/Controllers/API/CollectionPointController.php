@@ -6,6 +6,7 @@ use App\Models\CollectionPoint;
 use App\Http\Controllers\Controller;
 use App\Services\User\CollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
+use App\Services\All\PostcodeService;
 
 class CollectionPointController extends Controller
 {
@@ -19,23 +20,34 @@ class CollectionPointController extends Controller
         ]);
     }
 
-    public function indexNearMe(AuthenticatedRequest $request, CollectionPointService $collectionPointService)
+    public function indexNearMe(AuthenticatedRequest $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
     {
-        $userLat = $request->get('lat');
-        $userLong = $request->get('long');
+        $postCode = $request->input('postcode');
 
-        if( !$userLat || !$userLong )
+        if( !$postCode)
         {
             return response()->json([
                 'status' => 'error',
-                'message' => 'lat and long paramaters are required.',
+                'message' => 'Postcode paramaters are required.',
+            ]);
+        }
+
+        $userLocation = $postcodeService->getLatLongForPostCode($postCode);
+
+        if( isset($userLocation["error"]) )
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => $userLocation["error"],
             ]);
         }
 
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'collection_points' => $collectionPointService->listNearLatLong($userLat, $userLong)
+                'collection_points' => $collectionPointService->listNearLatLong(
+                    $userLocation["latitude"], $userLocation["longitude"]
+                )
             ]
         ]);
     }
