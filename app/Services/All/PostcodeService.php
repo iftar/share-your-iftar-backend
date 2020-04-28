@@ -24,6 +24,8 @@ class PostcodeService
     public function getLatLongForPostCode($postCode)
     {
         $response = $this->get($postCode);
+        if (isset($response["error"])) return $response;
+
         return [
             "latitude" => $response["result"]["latitude"],
             "longitude" => $response["result"]["longitude"],

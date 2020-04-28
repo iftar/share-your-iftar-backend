@@ -34,6 +34,14 @@ class CollectionPointController extends Controller
 
         $userLocation = $postcodeService->getLatLongForPostCode($postCode);
 
+        if( isset($userLocation["error"]) )
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => $userLocation["error"],
+            ]);
+        }
+
         return response()->json([
             'status' => 'success',
             'data'   => [
