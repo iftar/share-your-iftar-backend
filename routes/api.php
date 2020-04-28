@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::get('/charities', 'CharityController@index');
-    Route::get('/collection-points/near-me', 'CollectionPointController@indexNearMe');
+    Route::post('/collection-points/near-me', 'CollectionPointController@indexNearMe');
     Route::get('/collection-points/{id}', 'CollectionPointController@show');
     Route::get('/collection-points', 'CollectionPointController@index');
 
