@@ -111,10 +111,8 @@ class OrdersToday extends Notification
 
             if (array_key_exists($key, $collectionPoints)) {
 
-                $collectionPoints[$key] = [
-                    'orders' => (int) $collectionPoints[$key]['orders'] + 1,
-                    'meals'  => (int) $collectionPoints[$key]['meals'] + $batchOrder->order->quantity,
-                ];
+                $collectionPoints[$key]['orders'] = (int) $collectionPoints[$key]['orders'] + 1;
+                $collectionPoints[$key]['meals'] = (int) $collectionPoints[$key]['meals'] + $batchOrder->order->quantity;
 
                 continue;
             }
