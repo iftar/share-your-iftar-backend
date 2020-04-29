@@ -20,8 +20,8 @@ class CreateOrdersTable extends Migration
             // order details
             $table->unsignedInteger('quantity');
             $table->date('required_date');
-            $table->string('collection_point_id');
-            $table->string('collection_point_time_slot_id');
+            $table->unsignedInteger('collection_point_id');
+            $table->unsignedInteger('collection_point_time_slot_id');
 
             // user details
             $table->string('first_name');
