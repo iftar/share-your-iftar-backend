@@ -64,6 +64,13 @@ class OrderService
                                       ->first();
     }
 
+    public function CollectionPointAcceptingOrders(CollectionPointTimeSlot $collectionPointTimeSlot)
+    {
+        if( $collectionPointTimeSlot->accepting_orders && 
+            $collectionPointTimeSlot->collectionPoint->accepting_orders ) return true;
+        else return false;
+    }
+
     public function getFillable($collection)
     {
         return $collection->only(

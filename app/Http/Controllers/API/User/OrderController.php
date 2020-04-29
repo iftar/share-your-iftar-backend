@@ -10,6 +10,7 @@ use App\Http\Requests\API\User\Order\StoreRequest;
 use App\Http\Requests\API\User\Order\UpdateRequest;
 use App\Http\Requests\API\User\Order\DeleteRequest;
 use App\Http\Requests\API\User\AuthenticatedRequest;
+use App\Services\User\CollectionPointService;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
@@ -50,15 +51,26 @@ class OrderController extends Controller
 
     public function store(StoreRequest $request, OrderService $orderService)
     {
-        if ( ! $orderService->timeSlotBelongsToCollectionPoint(
+        $collectionPointTimeSlot = $orderService->timeSlotBelongsToCollectionPoint(
             $request->input('collection_point_time_slot_id'),
             $request->input('collection_point_id')
-        )) {
+        );
+
+        if ( ! $collectionPointTimeSlot ) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Collection Point Time Slot does not belong to Collection Point'
             ], Response::HTTP_BAD_REQUEST);
         }
+
+        $acceptingOrders = $orderService->collectionPointAcceptingOrders($collectionPointTimeSlot);
+        if ( ! $acceptingOrders ) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Collection point was not able to accept this order.',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
 
         $canOrder = $orderService->canOrder();
         if ( ! $canOrder['user_can_order'] ) {
