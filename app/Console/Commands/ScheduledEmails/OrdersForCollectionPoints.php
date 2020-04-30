@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Services\CollectionPoint\BatchService;
 use App\Services\CollectionPoint\OrderService;
 use App\Notifications\CollectionPoint\OrdersToday;
+use App\Notifications\CollectionPoint\NoOrdersToday;
 
 class OrdersForCollectionPoints extends Command
 {
@@ -57,6 +58,7 @@ class OrdersForCollectionPoints extends Command
             }
 
             if ($orders->count() == 0) {
+                $collectionPoint->notifyAllUsers(new NoOrdersToday($collectionPoint));
                 continue;
             }
 
@@ -64,9 +66,7 @@ class OrdersForCollectionPoints extends Command
 
             $csv = $this->batchService->generateCsv($batch);
 
-            foreach ($collectionPoint->collectionPointUsers as $collectionPointUser) {
-                $collectionPointUser->user->notify(new OrdersToday($batch, $collectionPoint, $csv));
-            }
+            $collectionPoint->notifyAllUsers(new OrdersToday($batch, $collectionPoint, $csv));
         }
     }
 }

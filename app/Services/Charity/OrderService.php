@@ -33,7 +33,8 @@ class OrderService
                               ->with([
                                   'orders' => function ($query) {
                                       $query->whereDate('required_date', today('Europe/London')->format('Y-m-d'))
-                                            ->whereType('charity_pickup');
+                                            ->whereType('charity_pickup')
+                                            ->whereStatus('accepted');
                                   },
                                   'orders.collectionPointTimeSlot'
                               ])

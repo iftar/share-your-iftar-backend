@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Services\Charity\BatchService;
 use App\Services\Charity\OrderService;
 use App\Notifications\Charity\OrdersToday;
+use App\Notifications\Charity\NoOrdersToday;
 
 class DeliveryOrdersForCharities extends Command
 {
@@ -57,6 +58,7 @@ class DeliveryOrdersForCharities extends Command
             }
 
             if ($orders->count() == 0) {
+                $charity->notifyAllUsers(new NoOrdersToday($charity));
                 continue;
             }
 
@@ -64,9 +66,7 @@ class DeliveryOrdersForCharities extends Command
 
             $csv = $this->batchService->generateCsv($batch);
 
-            foreach ($charity->charityUsers as $charityUser) {
-                $charityUser->user->notify(new OrdersToday($batch, $charity, $csv));
-            }
+            $charity->notifyAllUsers(new OrdersToday($batch, $charity, $csv));
         }
     }
 }

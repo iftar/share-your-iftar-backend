@@ -53,7 +53,7 @@ class OrderSeeder extends Seeder
 
         $this->createCollectionPointTimeSlotsForCollectionPoints();
         $this->createOrdersForCollectionPointTimeSlots();
-        $this->createBatchesForOrders();
+        // $this->createBatchesForOrders();
     }
 
     protected function output($message)
