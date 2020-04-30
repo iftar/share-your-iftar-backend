@@ -6,15 +6,10 @@ use App\Models\Order;
 
 class OrderService
 {
-    public function get()
-    {
-        return Order::paginate();
-    }
-
     public function getOrdersToday()
     {
         return Order::where('required_date', today())
             ->with(['collectionPoint','collectionPointTimeSlot']) 
-            ->paginate();
+            ->get();
     }
 }
