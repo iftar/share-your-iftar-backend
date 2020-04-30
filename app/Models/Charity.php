@@ -32,4 +32,11 @@ class Charity extends Model
     {
         return $this->hasMany(Batch::class);
     }
+
+    public function notifyAllUsers($notification)
+    {
+        foreach ($this->charityUsers as $charityUser) {
+            $charityUser->user->notify($notification);
+        }
+    }
 }

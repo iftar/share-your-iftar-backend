@@ -8,6 +8,11 @@ class Order extends Model
 {
     protected $table = 'orders';
 
+    protected $statuses = [
+        'accepted'  => 'Accepted',
+        'cancelled' => 'Cancelled'
+    ];
+
     protected $fillable = [
         'user_id',
         'required_date',
@@ -24,6 +29,7 @@ class Order extends Model
         'county',
         'post_code',
         'notes',
+        'status'
     ];
 
     protected $casts = [
@@ -59,6 +65,11 @@ class Order extends Model
         return $query->whereHas('collectionPointTimeSlot', function ($query) use ($type) {
             $query->where('type', $type);
         });
+    }
+
+    public function scopeWhereStatus($query, $status)
+    {
+        return $query->where('status', $status);
     }
 
     public function batch()

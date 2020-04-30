@@ -16,6 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'approved' => 'Approved',
         'disabled' => 'Disabled'
     ];
+
     protected $types    = [
         'user'             => 'User',
         'charity'          => 'Charity User',

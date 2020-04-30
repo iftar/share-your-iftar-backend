@@ -84,4 +84,11 @@ class CollectionPoint extends Model
     {
         return $this->collectionPointTimeSlots->where('type', 'charity_pickup')->count() > 0;
     }
+
+    public function notifyAllUsers($notification)
+    {
+        foreach ($this->collectionPointUsers as $collectionPointUser) {
+            $collectionPointUser->user->notify($notification);
+        }
+    }
 }
