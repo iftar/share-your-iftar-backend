@@ -52,6 +52,11 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/orders', 'OrderController@index');
     });
 
+    // Admin Users API
+    Route::group(['prefix' => 'admin', 'name' => 'admin.', 'namespace' => 'Admin'], function () {
+        Route::get('/orders/today', 'OrderController@index');
+    });
+
     Route::get('/charities', 'CharityController@index');
     Route::post('/collection-points/near-me', 'CollectionPointController@indexNearMe');
     Route::get('/collection-points/{id}', 'CollectionPointController@show');
