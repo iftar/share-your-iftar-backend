@@ -49,7 +49,7 @@ class CollectionPointTimeSlot extends Model
 
     public function getAvailableCapacityAttribute()
     {
-        return $this->max_capacity - $this->orders()->whereDate('created_at', Carbon::today())->count();
+        return $this->max_capacity - $this->orders()->whereDate('created_at', Carbon::today())->sum('quantity');
     }
 
     public function getAcceptingOrdersAttribute()

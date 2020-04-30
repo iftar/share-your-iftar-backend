@@ -64,6 +64,13 @@ class OrderService
                                       ->first();
     }
 
+    public function CollectionPointAcceptingOrders(CollectionPointTimeSlot $collectionPointTimeSlot)
+    {
+        if( $collectionPointTimeSlot->accepting_orders && 
+            $collectionPointTimeSlot->collectionPoint->accepting_orders ) return true;
+        else return false;
+    }
+
     public function getFillable($collection)
     {
         return $collection->only(
@@ -93,7 +100,7 @@ class OrderService
         // check if between 12am and 2pm
         $now   = Carbon::now('Europe/London');
         $start = Carbon::createFromTimeString('00:00', 'Europe/London');
-        $end   = Carbon::createFromTimeString('14:00', 'Europe/London');
+        $end   = Carbon::createFromTimeString('15:00', 'Europe/London');
 
         if ( $now->between($start, $end) || !config('shareiftar.enable_timeout') ) $result['time_passed_daily_deadline'] = false;
         else $result['messages'][] = "Today's deadline time has passed.";
