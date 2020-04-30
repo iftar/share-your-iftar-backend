@@ -41,3 +41,9 @@ $factory->state(User::class, 'collection-point', function ($faker) {
         'type' => 'collection-point',
     ];
 });
+
+$factory->state(User::class, 'admin', function ($faker) {
+    return [
+        'type' => 'admin',
+    ];
+});
