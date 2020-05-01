@@ -4,6 +4,7 @@ namespace App\Console\Commands\ScheduledEmails;
 
 use App\Models\CollectionPoint;
 use Illuminate\Console\Command;
+use App\Notifications\SmsMessage;
 use App\Services\CollectionPoint\BatchService;
 use App\Services\CollectionPoint\OrderService;
 use App\Notifications\CollectionPoint\OrdersToday;
@@ -66,7 +67,27 @@ class OrdersForCollectionPoints extends Command
 
             $csv = $this->batchService->generateCsv($batch);
 
+            $smsMessage = $this->composeSmsMessage($collectionPoint, $orders);
+
             $collectionPoint->notifyAllUsers(new OrdersToday($batch, $collectionPoint, $csv));
+            $collectionPoint->smsAllUsers($smsMessage);
         }
+    }
+
+    protected function composeSmsMessage($collectionPoint, $orders)
+    {
+        $name      = $collectionPoint->name;
+        $mealCount = $orders->sum('quantity');
+
+        $numOfMeals = $mealCount == 1
+            ? $mealCount . ' meal'
+            : $mealCount . ' meals';
+
+        return (new SmsMessage())
+            ->line("Salaam $name,")
+            ->emptyLine()
+            ->line("You have $numOfMeals to prepare today.")
+            ->emptyLine()
+            ->line("ShareIftar Team");
     }
 }

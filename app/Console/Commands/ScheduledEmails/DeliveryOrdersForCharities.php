@@ -4,6 +4,7 @@ namespace App\Console\Commands\ScheduledEmails;
 
 use App\Models\Charity;
 use Illuminate\Console\Command;
+use App\Notifications\SmsMessage;
 use App\Services\Charity\BatchService;
 use App\Services\Charity\OrderService;
 use App\Notifications\Charity\OrdersToday;
@@ -66,7 +67,27 @@ class DeliveryOrdersForCharities extends Command
 
             $csv = $this->batchService->generateCsv($batch);
 
+            $smsMessage = $this->composeSmsMessage($charity, $orders);
+
             $charity->notifyAllUsers(new OrdersToday($batch, $charity, $csv));
+            $charity->smsAllUsers($smsMessage);
         }
+    }
+
+    protected function composeSmsMessage($charity, $orders)
+    {
+        $name       = $charity->name;
+        $orderCount = $orders->count();
+
+        $numOfOrders = $orderCount == 1
+            ? $orderCount . ' order'
+            : $orderCount . ' orders';
+
+        return (new SmsMessage())
+            ->line("Salaam $name,")
+            ->emptyLine()
+            ->line("You have $numOfOrders to collect and deliver today.")
+            ->emptyLine()
+            ->line("ShareIftar Team");
     }
 }
