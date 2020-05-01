@@ -87,11 +87,7 @@ class OrdersForCollectionPoints extends Command
         $message = join("\n",[
             "Salaam $name,",
             "",
-            "You have $meal_count meals that will be collected today.",
-            "",
-            "Please check your inbox for further information regarding specific orders.",
-            "",
-            "If you have any issues please email us on info@shareiftar.org.",
+            "You have $meal_count meal(s) to make today.",
             "",
             "ShareIftar Team"
         ]);
