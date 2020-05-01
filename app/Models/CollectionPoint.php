@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Services\All\SmsService;
+use App\Notifications\SmsMessage;
 use Illuminate\Database\Eloquent\Model;
 
 class CollectionPoint extends Model
@@ -90,5 +92,18 @@ class CollectionPoint extends Model
         foreach ($this->collectionPointUsers as $collectionPointUser) {
             $collectionPointUser->user->notify($notification);
         }
+    }
+
+    public function smsAllUsers(SmsMessage $smsMessage)
+    {
+        $smsService = new SmsService();
+
+        foreach ($this->collectionPointUsers as $collectionPointUser) {
+            if ( ! empty($collectionPointUser->user->phone_number)) {
+                $smsMessage->addPhoneNumber($collectionPointUser->user->phone_number);
+            }
+        }
+
+        return $smsService->sendMessage($smsMessage);
     }
 }

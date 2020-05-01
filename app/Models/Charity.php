@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\All\SmsService;
+use App\Notifications\SmsMessage;
 use Illuminate\Database\Eloquent\Model;
 
 class Charity extends Model
@@ -38,5 +40,18 @@ class Charity extends Model
         foreach ($this->charityUsers as $charityUser) {
             $charityUser->user->notify($notification);
         }
+    }
+
+    public function smsAllUsers(SmsMessage $smsMessage)
+    {
+        $smsService = new SmsService();
+
+        foreach ($this->charityUsers as $charityUser) {
+            if ( ! empty($charityUser->user->phone_number)) {
+                $smsMessage->addPhoneNumber($charityUser->user->phone_number);
+            }
+        }
+
+        return $smsService->sendMessage($smsMessage);
     }
 }

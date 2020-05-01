@@ -4,7 +4,7 @@ namespace App\Console\Commands\ScheduledEmails;
 
 use App\Models\Charity;
 use Illuminate\Console\Command;
-use App\Services\All\SmsService;
+use App\Notifications\SmsMessage;
 use App\Services\Charity\BatchService;
 use App\Services\Charity\OrderService;
 use App\Notifications\Charity\OrdersToday;
@@ -40,7 +40,6 @@ class DeliveryOrdersForCharities extends Command
 
         $this->orderService = new OrderService();
         $this->batchService = new BatchService();
-        $this->smsService   = new SmsService();
     }
 
     /**
@@ -68,31 +67,27 @@ class DeliveryOrdersForCharities extends Command
 
             $csv = $this->batchService->generateCsv($batch);
 
-            $this->sendSmsMessage($charity, $orders);
+            $smsMessage = $this->composeSmsMessage($charity, $orders);
+
             $charity->notifyAllUsers(new OrdersToday($batch, $charity, $csv));
+            $charity->smsAllUsers($smsMessage);
         }
     }
 
-    public function sendSmsMessage($charity, $orders)
+    protected function composeSmsMessage($charity, $orders)
     {
-        $numbers = [];
-        foreach ($charity->charityUsers as $charityUser) {
-            if (! empty($charityUser->user->phone_number)) {
-                $numbers[] = $charityUser->user->phone_number;
-            }
-        }
+        $name       = $charity->name;
+        $orderCount = $orders->count();
 
-        $order_count = $orders->count();
-        $name = $charity->name;
-        $message = join("\n",[
-            "Salaam $name,",
-            "",
-            "You have $order_count order(s) to collect and deliver today.",
-            "",
-            "ShareIftar Team"
-        ]);
+        $numOfOrders = $orderCount == 1
+            ? $orderCount . ' order'
+            : $orderCount . ' orders';
 
-        if (!count($numbers)) return false;
-        else return $this->smsService->sendMessage($numbers, $message);
+        return (new SmsMessage())
+            ->line("Salaam $name,")
+            ->emptyLine()
+            ->line("You have $numOfOrders to collect and deliver today.")
+            ->emptyLine()
+            ->line("ShareIftar Team");
     }
 }

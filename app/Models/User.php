@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\All\SmsService;
+use App\Notifications\SmsMessage;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\User\VerifyEmail;
 use Illuminate\Notifications\Notifiable;
@@ -70,9 +72,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(CollectionPoint::class, 'collection_point_users');
     }
 
-    public function notifications()
+    public function sms(SmsMessage $smsMessage)
     {
-        return $this->hasMany(Notification::class);
+        $smsService = new SmsService();
+
+        if ( ! empty($this->phone_number)) {
+            $smsMessage->addPhoneNumber($this->phone_number);
+        }
+
+        return $smsService->sendMessage($smsMessage);
     }
 
     public function sendEmailVerificationNotification()

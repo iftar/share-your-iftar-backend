@@ -4,7 +4,7 @@ namespace App\Console\Commands\ScheduledEmails;
 
 use App\Models\CollectionPoint;
 use Illuminate\Console\Command;
-use App\Services\All\SmsService;
+use App\Notifications\SmsMessage;
 use App\Services\CollectionPoint\BatchService;
 use App\Services\CollectionPoint\OrderService;
 use App\Notifications\CollectionPoint\OrdersToday;
@@ -40,7 +40,6 @@ class OrdersForCollectionPoints extends Command
 
         $this->orderService = new OrderService();
         $this->batchService = new BatchService();
-        $this->smsService   = new SmsService();
     }
 
     /**
@@ -68,31 +67,27 @@ class OrdersForCollectionPoints extends Command
 
             $csv = $this->batchService->generateCsv($batch);
 
-            $this->sendSmsMessage($collectionPoint, $orders);
+            $smsMessage = $this->composeSmsMessage($collectionPoint, $orders);
+
             $collectionPoint->notifyAllUsers(new OrdersToday($batch, $collectionPoint, $csv));
+            $collectionPoint->smsAllUsers($smsMessage);
         }
     }
 
-    public function sendSmsMessage($collectionPoint, $orders)
+    protected function composeSmsMessage($collectionPoint, $orders)
     {
-        $numbers = [];
-        foreach ($collectionPoint->collectionPointUsers as $collectionPointUser) {
-            if (! empty($collectionPointUser->user->phone_number)) {
-                $numbers[] = $collectionPointUser->user->phone_number;
-            }
-        }
+        $name      = $collectionPoint->name;
+        $mealCount = $orders->sum('quantity');
 
-        $meal_count = $orders->sum('quantity');
-        $name = $collectionPoint->name;
-        $message = join("\n",[
-            "Salaam $name,",
-            "",
-            "You have $meal_count meal(s) to make today.",
-            "",
-            "ShareIftar Team"
-        ]);
+        $numOfMeals = $mealCount == 1
+            ? $mealCount . ' meal'
+            : $mealCount . ' meals';
 
-        if (!count($numbers)) return false;
-        else return $this->smsService->sendMessage($numbers, $message);
+        return (new SmsMessage())
+            ->line("Salaam $name,")
+            ->emptyLine()
+            ->line("You have $numOfMeals to prepare today.")
+            ->emptyLine()
+            ->line("ShareIftar Team");
     }
 }
