@@ -14,13 +14,13 @@ class SmsService
         $this->originator_number = config('sms.originator_number');
     }
 
-    public function sendMessage($to, $body)
+    public function sendMessage($to = [], $body = "")
     {
         if( ! $this->enabled ) return false;
 
         $message = new Message();
         $message->originator = $this->originator_number;
-        $message->recipients = [ $to ];
+        $message->recipients = $to;
         $message->body = $body;
 
         $response = $this->messagebird->messages->create($message);
