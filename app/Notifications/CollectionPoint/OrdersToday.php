@@ -52,13 +52,13 @@ class OrdersToday extends Notification
     {
         $message = (new MailMessage)
             ->subject('Meals To Prepare - ' . $this->batch->created_at->format('jS F Y'))
-            ->greeting('Hi, ' . $notifiable->full_name)
+            ->greeting('Salaam ' . $notifiable->full_name . ",")
             ->line('You have ' . $this->getTotalMeals() . ' to prepare today.');
 
         $this->addCollectionPointTimeSlotsSummary($message);
 
         $message->line('Please find a CSV attached with a list of orders and meals per order.')
-                ->line(new HtmlString('If you have any issues please reply to this email or email us at <a href="mailto:shareiftar@gmail.com">shareiftar@gmail.com</a>'))
+                ->line(new HtmlString('If you have any issues please reply to this email or email us at <a href="mailto:info@shareiftar.org">info@shareiftar.org</a>'))
                 ->salutation(new HtmlString('Kind Regards,<br>Share Iftar Team'))
                 ->attachData($this->csv, $this->getCsvFileName());
 
