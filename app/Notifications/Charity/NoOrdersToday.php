@@ -47,9 +47,9 @@ class NoOrdersToday extends Notification
     {
         $message = (new MailMessage)
             ->subject('No Orders Today')
-            ->greeting('Hi, ' . $notifiable->full_name)
+            ->greeting('Salaam ' . $notifiable->full_name . ',')
             ->line('You have no meals to deliver today.')
-            ->line(new HtmlString('If you have any issues please reply to this email or email us at <a href="mailto:shareiftar@gmail.com">shareiftar@gmail.com</a>'))
+            ->line(new HtmlString('If you have any issues please reply to this email or email us at <a href="mailto:info@shareiftar.org">info@shareiftar.org</a>'))
             ->salutation(new HtmlString('Kind Regards,<br>Share Iftar Team'));
 
         return $message;
