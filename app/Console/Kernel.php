@@ -32,9 +32,9 @@ class Kernel extends ConsoleKernel
                  ->dailyAt('15:05')
                  ->timezone($timezone);
 
-        $schedule->command('orders:charities')
-                 ->dailyAt('15:05')
-                 ->timezone($timezone);
+//        $schedule->command('orders:charities')
+//                 ->dailyAt('15:05')
+//                 ->timezone($timezone);
     }
 
     /**

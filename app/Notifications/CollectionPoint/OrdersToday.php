@@ -118,7 +118,7 @@ class OrdersToday extends Notification
         }
 
         if (count($collectionPointTimeSlots['user_pickup']) > 0) {
-            $message->line('Meals for pickup:');
+            $message->line('Meals for collection:');
         }
 
         foreach ($collectionPointTimeSlots['user_pickup'] as $collectionPointTimeSlot => $numberOfMeals) {
@@ -130,7 +130,7 @@ class OrdersToday extends Notification
         }
 
         if (count($collectionPointTimeSlots['charity_pickup']) > 0) {
-            $message->line('Meals for delivery (picked up by charity):');
+            $message->line('Meals for delivery:');
         }
 
         foreach ($collectionPointTimeSlots['charity_pickup'] as $collectionPointTimeSlot => $numberOfMeals) {
