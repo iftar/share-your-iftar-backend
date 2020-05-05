@@ -19,6 +19,7 @@ class CollectionPoint extends Model
         'county',
         'post_code',
         'max_daily_capacity',
+        'delivery_radius',
     ];
 
     protected $hidden = [
@@ -28,6 +29,7 @@ class CollectionPoint extends Model
 
     protected $casts = [
         'max_daily_capacity' => 'integer',
+        'delivery_radius' => 'integer',
     ];
 
     protected $appends = [

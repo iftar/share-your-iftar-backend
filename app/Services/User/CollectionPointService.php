@@ -6,10 +6,10 @@ use App\Models\CollectionPoint;
 
 class CollectionPointService
 {
-    public function get(CollectionPoint $collectionPoint)
+    public function get($id)
     {
         return CollectionPoint::with(['collectionPointTimeSlots'])
-                              ->where('id', $collectionPoint->id)
+                              ->where('id', $id)
                               ->first();
     }
 
@@ -39,6 +39,19 @@ class CollectionPointService
         }
 
         return $nearestPoints;
+    }
+
+    public function canDeliverToLocation($collectionPointId, $userLat, $userLong)
+    {
+        $collectionPoint = $this->get($collectionPointId);
+        $radius = $collectionPoint->delivery_radius;
+
+        return $this->getDistanceBetweenPoints(
+            $userLat,
+            $userLong,
+            $collectionPoint->lat,
+            $collectionPoint->lng
+        ) <= $radius;
     }
 
     private function getDistanceBetweenPoints($lat1, $lon1, $lat2, $lon2) {
