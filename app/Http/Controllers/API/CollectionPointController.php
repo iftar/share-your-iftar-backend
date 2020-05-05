@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\CollectionPoint;
 use App\Http\Controllers\Controller;
 use App\Services\User\CollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
@@ -52,12 +51,46 @@ class CollectionPointController extends Controller
         ]);
     }
 
-    public function show(AuthenticatedRequest $request, CollectionPointService $collectionPointService, CollectionPoint $collectionPoint)
+    public function show($id, AuthenticatedRequest $request, CollectionPointService $collectionPointService)
     {
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'collection_point' => $collectionPointService->get($collectionPoint)
+                'collection_point' => $collectionPointService->get($id)
+            ]
+        ]);
+    }
+
+    public function canDeliverToLocation($collectionPointId, AuthenticatedRequest $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
+    {
+        $postCode = $request->input('postcode');
+
+        if( !$postCode)
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Postcode paramaters are required.',
+            ]);
+        }
+
+        $userLocation = $postcodeService->getLatLongForPostCode($postCode);
+
+        if( isset($userLocation["error"]) )
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => $userLocation["error"],
+            ]);
+        }
+
+        $canDeliverToLocation = $collectionPointService->canDeliverToLocation(
+            $collectionPointId, $userLocation["latitude"], $userLocation["longitude"]
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'can_deliver_to_location' => $canDeliverToLocation,
             ]
         ]);
     }

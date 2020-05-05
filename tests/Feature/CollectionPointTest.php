@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\CollectionPoint;
 use App\Models\CollectionPointUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,6 +27,8 @@ class CollectionPointTest extends TestCase
 
     public function testGetCollectionPoint()
     {
+        factory(CollectionPoint::class)->create();
+        $collectionPoint = CollectionPoint::find(1)->toArray();
         $user = factory(User::class)->create();
         $response = $this->actingAs($user, "api")->get('/api/collection-points/1');
 
@@ -33,7 +36,7 @@ class CollectionPointTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'status' => 'success',
-                'data'   => [ 'collection_point' => [] ]]);
+                'data'   => [ 'collection_point' => $collectionPoint ]]);
     }
 
     public function testGetCollectionPointProfile()
@@ -157,5 +160,35 @@ class CollectionPointTest extends TestCase
                     'post_code'         => 'F4 K3E',
                     'max_daily_capacity'=> 1310
                 ]]]);
+    }
+
+    public function testCollectionPointCanDeliveryToLocation()
+    {
+        factory(CollectionPoint::class)->create();
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user, "api")->postJson('/api/collection-points/1/can-deliver-to-location', [
+            'postcode' => 'WC2R 1LA'
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data'   => [ 'can_deliver_to_location' => true ]]);
+    }
+
+    public function testCollectionPointCannotDeliveryToLocation()
+    {
+        factory(CollectionPoint::class)->create();
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user, "api")->postJson('/api/collection-points/1/can-deliver-to-location', [
+            'postcode' => 'IG1 4DU'
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data'   => [ 'can_deliver_to_location' => false ]]);
     }
 }
