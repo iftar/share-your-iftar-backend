@@ -32,6 +32,10 @@ class PasswordResetController extends Controller
             abort(404, 'There was an error resetting your password');
         }
 
+        if ($user && ! $user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
         $authService->revokeAllTokens($user);
 
         return redirect()->away( config('app.frontend_url') . "/login?state=password_reset_successfully" );
