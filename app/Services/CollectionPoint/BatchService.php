@@ -57,10 +57,18 @@ class BatchService
                     $order->collectionPointTimeSlot->start_time . ' - ' . $order->collectionPointTimeSlot->end_time,
                     $order->quantity,
                     $order->notes,
-                    $order->collectionPointTimeSlot->type,
-                    $order->collectionPointTimeSlot->type == 'charity_pickup' ? $order->collectionPoint->charity->first()->name : '',
-                    $order->collectionPointTimeSlot->type == 'user_pickup' ? $order->first_name : '',
-                    $order->collectionPointTimeSlot->type == 'user_pickup' ? $order->last_name : '',
+                    $order->collectionPointTimeSlot->type === 'charity_pickup' ? 'delivery' : 'collection',
+                    $order->user_id,
+                    $order->first_name,
+                    $order->last_name,
+                    $order->email,
+                    $order->phone,
+                    $order->notes,
+                    $order->address_line_1,
+                    $order->address_line_2,
+                    $order->city,
+                    $order->county,
+                    $order->post_code,
                 ]);
             } catch (CannotInsertRecord $e) {
                 continue;
@@ -80,9 +88,17 @@ class BatchService
                 'Order Quantity',
                 'Order Notes',
                 'Order Type',
-                'Pickup Charity Name',
-                'Pickup User First Name',
-                'Pickup User Last Name',
+                'User ID',
+                'User First Name',
+                'User Last Name',
+                'User Email',
+                'User Phone Number',
+                'User Notes',
+                'Delivery Address Line 1',
+                'Delivery Address Line 2',
+                'Delivery County',
+                'Delivery City',
+                'Delivery Post Code',
             ]);
         } catch (CannotInsertRecord $e) {
         }
