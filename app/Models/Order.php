@@ -25,7 +25,7 @@ class Order extends Model
         'phone',
         'address_line_1',
         'address_line_2',
-        'town',
+        'city',
         'county',
         'post_code',
         'notes',
@@ -80,5 +80,10 @@ class Order extends Model
     public function getFullNameAttribute()
     {
         return "$this->first_name $this->last_name";
+    }
+
+    public function getTypeAttribute()
+    {
+        return $this->collectionPointTimeSlot->type;
     }
 }
