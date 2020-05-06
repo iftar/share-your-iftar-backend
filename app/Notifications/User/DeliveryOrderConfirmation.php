@@ -94,7 +94,7 @@ class DeliveryOrderConfirmation extends Notification
         }
 
         if (count($address)) {
-            $message->line(new HtmlString(implode($address, '<br>')));
+            $message->line(new HtmlString(implode('<br>', $address)));
         }
     }
 }
