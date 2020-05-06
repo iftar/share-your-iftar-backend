@@ -18,7 +18,7 @@ class OrderController extends Controller
         if ( ! $data ) {
             $data = [
                 'orders' => $orderService->getOrdersToday(),
-                'last_updated' => now('Europe/London')->format('H:m a'),
+                'last_updated' => now('Europe/London')->format('h:i A'),
             ];
             Cache::put($cache_key, $data, 300); // 5 mins
         }
