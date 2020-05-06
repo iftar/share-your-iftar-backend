@@ -55,7 +55,7 @@ class PickupOrderConfirmation extends Notification
 
         $this->addFormattedCollectionPointAddress($message);
 
-        $message->line('Please ensure that you arrive on time and that you follow the social distancing rules set out by the government.')
+        $message->line('Please ensure that you arrive on time and follow the social distancing rules set out by the government.')
                 ->line(new HtmlString('If you have any issues or change your mind about the order, please email us on <a href="mailto:info@shareiftar.org">info@shareiftar.org</a>.'))
                 ->salutation(new HtmlString('Kind Regards,<br>Share Iftar Team'));
 
