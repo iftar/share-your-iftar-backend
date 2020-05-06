@@ -1,5 +1,7 @@
 # Share your Iftar Project
 
+[![Heroku](http://heroku-badge.herokuapp.com/?app=shareiftar-staging&style=flat&svg=1)]
+
 ## API Documentation
 
 https://docs.google.com/document/d/1VLw98wvg7Yyq46QgAv5rYjwUJCk4Uwb_dC9OBWCLvaQ/view
