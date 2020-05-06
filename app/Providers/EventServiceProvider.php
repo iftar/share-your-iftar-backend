@@ -8,10 +8,12 @@ use App\Events\Order\Updated as OrderUpdated;
 use App\Events\Charity\Created as CharityCreated;
 use App\Events\Charity\Updated as CharityUpdated;
 use App\Events\User\Registered as UserRegistered;
+use App\Listeners\User\SendOrderConfirmationEmail;
 use App\Events\User\PasswordReset as UserPasswordReset;
 use App\Listeners\User\SendEmailVerificationNotification;
 use App\Events\CollectionPoint\Created as CollectionPointCreated;
 use App\Events\CollectionPoint\Updated as CollectionPointUpdated;
+
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -38,7 +40,9 @@ class EventServiceProvider extends ServiceProvider
 
         CollectionPointUpdated::class => [],
 
-        OrderCreated::class => [],
+        OrderCreated::class => [
+            SendOrderConfirmationEmail::class
+        ],
 
         OrderUpdated::class => [],
     ];
