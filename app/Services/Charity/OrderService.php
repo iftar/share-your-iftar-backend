@@ -18,7 +18,7 @@ class OrderService
                                  $query->where('type', 'charity_pickup');
                              },
                              'collectionPoints.collectionPointTimeSlots.orders' => function ($query) {
-                                 $query->whereDate('required_date', today()->format('Y-m-d'));
+                                 $query->whereDate('required_date', today('Europe/London')->format('Y-m-d'));
                              },
                          ])
                          ->whereIn('id', $user->charities->pluck('id'))

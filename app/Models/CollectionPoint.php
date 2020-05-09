@@ -71,7 +71,7 @@ class CollectionPoint extends Model
 
     public function getAvailableCapacityAttribute()
     {
-        return $this->max_daily_capacity - $this->orders()->whereDate('created_at', Carbon::today())->sum('quantity');
+        return $this->max_daily_capacity - $this->orders()->whereDate('created_at', today('Europe/London'))->sum('quantity');
     }
 
     public function getAcceptingOrdersAttribute()

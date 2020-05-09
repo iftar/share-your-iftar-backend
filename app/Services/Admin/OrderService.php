@@ -8,7 +8,7 @@ class OrderService
 {
     public function getOrdersToday()
     {
-        return Order::where('required_date', today())
+        return Order::where('required_date', today('Europe/London'))
             ->with(['collectionPoint','collectionPointTimeSlot']) 
             ->get();
     }

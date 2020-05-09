@@ -20,7 +20,7 @@ class OrderService
         $collectionTimeSlots = CollectionPointTimeSlot::where('collection_point_id', $userCollectionPoint->id)
                                                       ->with([
                                                           'orders' => function ($query) {
-                                                              $query->whereDate('required_date', today()->format('Y-m-d'));
+                                                              $query->whereDate('required_date', today('Europe/London')->format('Y-m-d'));
                                                           }
                                                       ])
                                                       ->orderBy('start_time')
@@ -38,7 +38,7 @@ class OrderService
         return CollectionPointTimeSlot::where('collection_point_id', $collectionPoint->id)
                                       ->with([
                                           'orders' => function ($query) {
-                                              $query->whereDate('required_date', today()->format('Y-m-d'))
+                                              $query->whereDate('required_date', today('Europe/London')->format('Y-m-d'))
                                                     ->whereStatus('accepted');
                                           }
                                       ])
