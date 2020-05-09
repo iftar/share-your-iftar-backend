@@ -32,7 +32,7 @@ class OrderService
     {
         $user = auth()->user();
 
-        $data['required_date'] = now();
+        $data['required_date'] = now('Europe/London');
 
         $order = $user->orders()->create($data);
 

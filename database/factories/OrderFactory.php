@@ -26,7 +26,7 @@ $factory->define(Order::class, function (Faker $faker, $options) {
 
     $requiredDate = array_key_exists('required_date', $options)
         ? $options['required_date']
-        : now()->addDays(rand(0, 7))->hour(rand(0, 13));
+        : now('Europe/London')->addDays(rand(0, 7))->hour(rand(0, 13));
     
     $customEmail = function() {
         $faker = Factory::create('en_GB');
