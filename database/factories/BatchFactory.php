@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Batch::class, function (Faker $faker) {
     return [
-        'created_at' => now()->startOfDay()->hour(14)
+        'created_at' => now('Europe/London')->startOfDay()->hour(14)
     ];
 });

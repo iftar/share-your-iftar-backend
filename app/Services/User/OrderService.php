@@ -32,7 +32,7 @@ class OrderService
     {
         $user = auth()->user();
 
-        $data['required_date'] = now();
+        $data['required_date'] = now('Europe/London');
 
         $order = $user->orders()->create($data);
 
@@ -91,13 +91,13 @@ class OrderService
 
         // check if user has already ordered today
         $todaysOrderCount = $user->orders()
-                                 ->whereDate('created_at', Carbon::today())
+                                 ->whereDate('created_at', Carbon::today('Europe/London'))
                                  ->count();
 
         if ( $todaysOrderCount == 0 ) $result['user_has_ordered_today'] = false;
         else $result['messages'][] = "User has already ordered today.";
 
-        // check if between 12am and 2pm
+        // check if between 12am and 3pm
         $now   = Carbon::now('Europe/London');
         $start = Carbon::createFromTimeString('00:00', 'Europe/London');
         $end   = Carbon::createFromTimeString('15:00', 'Europe/London');

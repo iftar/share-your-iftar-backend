@@ -81,7 +81,7 @@ class OrdersToday extends Notification
 
     protected function getCsvFileName()
     {
-        return now()->format('Y-m-d') . "_collection-point_" . $this->batch->collectionPoint->id . "_batch_" . $this->batch->id . ".csv";
+        return now('Europe/London')->format('Y-m-d') . "_collection-point_" . $this->batch->collectionPoint->id . "_batch_" . $this->batch->id . ".csv";
     }
 
     protected function getTotalMeals()
