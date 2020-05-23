@@ -87,6 +87,11 @@ class OrderService
             'messages' => [],
         ];
 
+        if (!config('shareiftar.enabled')) {
+            $result['messages'][] = "Share iftar platform is currently disabled.";
+            return $result;
+        }
+
         $user = auth()->user();
 
         // check if user has already ordered today
