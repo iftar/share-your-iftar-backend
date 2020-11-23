@@ -39,8 +39,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Charity Users API
     Route::group(['prefix' => 'charity', 'name' => 'charity.', 'namespace' => 'Charity'], function () {
         Route::get('/', 'CharityController@index');
-        Route::post('/', 'CharityController@update');
-
+        Route::post('/{id}', 'CharityController@update');
+        Route::get('/{id}', 'CharityController@show');
         Route::get('/orders', 'OrderController@index');
     });
 
