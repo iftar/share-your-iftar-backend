@@ -19,10 +19,18 @@ class CharityController extends Controller
         ]);
     }
 
-    public function update(UpdateRequest $request, CharityService $charityService)
+    public function show($id, AuthenticatedRequest $request, CharityService $charityPointService) {
+         return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'charity' => $charityPointService->show($id)
+            ]
+        ]);
+    }
+
+    public function update(Charity $id, AuthenticatedRequest $request, CharityService $CharityService)
     {
-        $charity = auth()->user()->charity();
-        $charity = $charityService->update($charity, $charityService->getFillable($request));
+        $charity = $CharityService->update($id, $CharityService->getFillable($request));
 
         return response()->json([
             'status' => 'success',
