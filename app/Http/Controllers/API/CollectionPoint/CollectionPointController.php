@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CollectionPoint\UpdateRequest;
 use App\Services\CollectionPoint\CollectionPointService;
 use App\Http\Requests\API\CollectionPoint\AuthenticatedRequest;
+use App\Models\CollectionPoint;
 
 class CollectionPointController extends Controller
 {
@@ -15,6 +16,27 @@ class CollectionPointController extends Controller
             'status' => 'success',
             'data'   => [
                 'collection_point' => $collectionPointService->get()
+            ]
+        ]);
+    }
+
+    public function getMealDetails(CollectionPoint $collectionPoint, AuthenticatedRequest $request, CollectionPointService $collectionPointService) {
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'collection_point' => $collectionPointService->getMealDetails($collectionPoint)
+            ]
+        ]);
+    }
+
+    public function updateMealDetails (CollectionPoint $collection_point_id, CollectionPointService $collectionPointService) {
+
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'collection_point' => $collectionPointService->get($id)
             ]
         ]);
     }

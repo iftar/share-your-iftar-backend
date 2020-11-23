@@ -5,6 +5,7 @@ namespace App\Services\CollectionPoint;
 use App\Models\CollectionPoint;
 use App\Events\CollectionPoint\Created;
 use App\Events\CollectionPoint\Updated;
+use App\Models\MealDetails;
 
 class CollectionPointService
 {
@@ -14,6 +15,27 @@ class CollectionPointService
 
         return $user->collectionPoints->first();
     }
+
+    public function getMealDetails($id) {
+        $collectionPoint = CollectionPoint::findorFail((int) $id);
+        return $collectionPoint->mealDetails;
+    }
+
+    public function  updateMealDetails($id, $UpdatedMealDetails) {
+
+        $collectionPoint = CollectionPoint::findorFail($id);
+        $mealDetails = $collectionPoint->mealDetails;
+
+        foreach ($UpdatedMealDetails as $key => $details) {
+           if( $mealDetails->type_of_meal !== MealDetails::HOT_FOOD && $mealDetails->type_of_meal !== MealDetails::HOME_ESSENTIALS && $mealDetails->type_of_meal !== MealDetails::SCHOOL_MEAL) {
+            
+           }
+            
+        }
+
+        return $collectionPoint;
+    }
+
 
     public function create($data)
     {

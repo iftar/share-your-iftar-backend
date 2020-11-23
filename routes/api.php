@@ -62,6 +62,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/collection-points/near-me', 'CollectionPointController@indexNearMe');
     Route::get('/collection-points/{id}', 'CollectionPointController@show');
     Route::get('/collection-points', 'CollectionPointController@index');
+    Route::get('/collection-point/{collection_point_id}/meal-details', 'CollectionPointController@getMealDetails');
+    Route::post('/collection-point/{collection_point_id}/meal-details', 'CollectionPointController@updateMealDetails');
 
     Route::post('logout', 'AuthController@logout');
 });

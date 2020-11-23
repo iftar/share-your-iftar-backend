@@ -4,8 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Services\User\CollectionPointService;
+use App\Services\CollectionPoint\CollectionPointService as MainCollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
 use App\Services\All\PostcodeService;
+use App\Models\CollectionPoint;
+use App\Models\MealDetails;
+use Illuminate\Http\Response;
 
 class CollectionPointController extends Controller
 {
@@ -57,6 +61,37 @@ class CollectionPointController extends Controller
             'status' => 'success',
             'data'   => [
                 'collection_point' => $collectionPointService->get($id)
+            ]
+        ]);
+    }
+
+    public function getMealDetails($id, AuthenticatedRequest $request, MainCollectionPointService $collectionPointService) {
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'collection_point' => $collectionPointService->getMealDetails($id)
+            ]
+        ]);
+    }
+
+    public function updateMealDetails ($id, AuthenticatedRequest $request, MainCollectionPointService $collectionPointService) {
+
+        foreach ($request->all() as $value) {
+            if($value["type_of_meal"] !== MealDetails::HOT_FOOD && $value["type_of_meal"] !== MealDetails::HOME_ESSENTIALS && $value["type_of_meal"] !== MealDetails::SCHOOL_MEAL ) {
+                 return response()->json([
+                    'status' => 'error',
+                    'data'   => [],
+                    "message" => "Provide valid type_of_meal, valid type_of_meal are: " . MealDetails::HOT_FOOD . ", " .  MealDetails::SCHOOL_MEAL . ", " . MealDetails::HOME_ESSENTIALS
+                ], Response::HTTP_BAD_REQUEST );
+            }   
+        }
+
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'collection_point' => $collectionPointService->updateMealDetails($id, $request->all())
             ]
         ]);
     }
