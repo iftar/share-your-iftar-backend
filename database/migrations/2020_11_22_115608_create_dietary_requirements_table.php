@@ -16,6 +16,7 @@ class CreateDietaryRequirementsTable extends Migration
         Schema::create('dietary_requirements', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->text("image_url");
             $table->timestamps();
         });
     }
