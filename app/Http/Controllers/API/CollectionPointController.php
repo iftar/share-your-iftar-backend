@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\User\CollectionPointService;
 use App\Services\CollectionPoint\CollectionPointService as MainCollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
+use App\Http\Requests\API\Charity\AuthenticatedRequest as CharityAuthenticatedRequest;
 use App\Services\All\PostcodeService;
 use App\Models\CollectionPoint;
 use App\Models\MealDetails;
@@ -128,5 +129,24 @@ class CollectionPointController extends Controller
                 'can_deliver_to_location' => $canDeliverToLocation,
             ]
         ]);
+    }
+
+    public function update($id, CharityAuthenticatedRequest $request, MainCollectionPointService $collectionPointService) {
+        $collection_points = auth()->user()->charities->map->collectionPoints->flatten();
+        if(!$collection_points->contains("id", $id)) {
+            return response()->json([
+                'status' => 'error',
+                'data'   => [],
+                "message" => "You are not part of this charity so you are not authorized to update this collection point. "
+            ], Response::HTTP_UNAUTHORIZED );
+        }
+
+        $collection_point =  $collection_points->firstWhere('id', $id);
+        $result = $collectionPointService->update($collection_point, $request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => $result,
+        ], Response::HTTP_OK );
     }
 }

@@ -63,6 +63,8 @@ class CollectionPointService
             'city'               => $data['city'] ?? $collectionPoint->city,
             'county'             => $data['county'] ?? $collectionPoint->county,
             'post_code'          => $data['post_code'] ?? $collectionPoint->post_code,
+            "pick_up_time"       => $data['pick_up_time'] ?? $collectionPoint->pick_up_time,
+            "cut_off_point"      => $data['cut_off_point'] ?? $collectionPoint->cut_off_point,
             'max_daily_capacity' => $data['max_daily_capacity'] ?? $collectionPoint->max_daily_capacity,
         ]);
 
