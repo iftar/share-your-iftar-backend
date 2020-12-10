@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Charity;
 
 use App\Http\Controllers\Controller;
+use App\Models\Charity;
 use App\Services\Charity\CharityService;
 use App\Http\Requests\API\Charity\UpdateRequest;
 use App\Http\Requests\API\Charity\AuthenticatedRequest;
@@ -28,9 +29,10 @@ class CharityController extends Controller
         ]);
     }
 
-    public function update(Charity $id, AuthenticatedRequest $request, CharityService $CharityService)
+    public function update(UpdateRequest $request, CharityService $charityService)
     {
-        $charity = $CharityService->update($id, $CharityService->getFillable($request));
+        $charity = auth()->user()->charity();
+        $charity = $charityService->update($charity, $charityService->getFillable($request));
 
         return response()->json([
             'status' => 'success',
