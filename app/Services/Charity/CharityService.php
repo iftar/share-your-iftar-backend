@@ -19,8 +19,8 @@ class CharityService
     {
         $charity = Charity::create([
             "name"                  => $data["name"],
-            "registration_number"   => $data["registration_number"],
-            "max_delivery_capacity" => $data["max_delivery_capacity"],
+            "registration_number"   => $data["registration_number"] ?? null,
+            "max_delivery_capacity" => $data["max_delivery_capacity"] ?? 0,
         ]);
 
         event(new Created($charity));
