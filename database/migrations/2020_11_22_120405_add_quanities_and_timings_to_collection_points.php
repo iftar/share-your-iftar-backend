@@ -15,7 +15,8 @@ class AddQuanitiesAndTimingsToCollectionPoints extends Migration
     {
         Schema::table('collection_points', function (Blueprint $table) {
             $table->integer('quantity_of_meals')->default(1);
-            $table->dateTime('pick_up_time');
+            $table->dateTime('start_pick_up_time');
+            $table->dateTime('end_pick_up_time');
             $table->dateTime("cut_off_point");
             $table->integer("set_quantity_per_person")->default(1);
             $table->string("logo")->nullable();
