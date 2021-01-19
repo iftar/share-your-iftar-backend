@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'charity', 'name' => 'charity.', 'namespace' => 'Charity'], function () {
         Route::get('/', 'CharityController@index');
         Route::post('/', 'CharityController@update');
-
+        Route::get('/{id}', 'CharityController@show');
         Route::get('/orders', 'OrderController@index');
     });
 
@@ -62,6 +62,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/collection-points/near-me', 'CollectionPointController@indexNearMe');
     Route::get('/collection-points/{id}', 'CollectionPointController@show');
     Route::get('/collection-points', 'CollectionPointController@index');
+    Route::get('/collection-point/{collection_point_id}/meal-details', 'CollectionPointController@getMealDetails');
+    Route::post('/collection-point/{collection_point_id}/meal-details', 'CollectionPointController@updateMealDetails');
 
+    Route::post('/collection-points/{id}', 'CollectionPointController@update');
     Route::post('logout', 'AuthController@logout');
 });

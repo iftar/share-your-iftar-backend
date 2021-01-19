@@ -93,7 +93,10 @@ class CollectionPoint extends Model
     {
         foreach ($this->collectionPointUsers as $collectionPointUser) {
             $collectionPointUser->user->notify($notification);
-        }
+        };
+    }
+    public function mealDetails() {
+        return $this->hasMany(MealDetails::class, "collection_point_id");
     }
 
     public function smsAllUsers(SmsMessage $smsMessage)
